@@ -1,0 +1,50 @@
+<form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()" (key.enter)="onSubmit()">
+  <ion-item>
+    <ion-input labelPlacement="stacked" label='{{"login.name" | translate}}' formControlName="name" type="text"></ion-input>
+  </ion-item>
+  <p  style='color: red;' *ngIf="this.form.get('name')?.errors?.['required'] && this.form.controls['name'].touched">
+    {{"login.required" | translate}}
+  </p>
+
+  <ion-item>
+    <ion-input labelPlacement="stacked" label='{{"login.user" | translate}}' formControlName="username" type="text"></ion-input>
+  </ion-item>
+  <p  style='color: red;' *ngIf="this.form.get('username')?.errors?.['required'] && this.form.controls['username'].touched">
+    {{"login.required" | translate}}
+  </p>
+
+  <ion-item>
+    <ion-input labelPlacement="stacked" label='{{"login.email" | translate}}' formControlName="email" type="email"></ion-input>
+  </ion-item>
+  <p  style='color: red;' *ngIf="this.form.get('email')?.errors?.['required'] && this.form.controls['email'].touched">
+    {{"login.required" | translate}}
+  </p>
+
+  <ion-item>
+    <ion-input labelPlacement="stacked" label='{{"login.pwd" | translate}}' formControlName="password" type="password"></ion-input>
+  </ion-item>
+  <p  style='color: red;' *ngIf="this.form.get('password')?.errors?.['required'] && this.form.controls['password'].touched">
+    {{"login.required" | translate}}
+  </p>
+  <p  style='color: red;' *ngIf="this.form.get('password')?.errors?.['minleght']">
+    {{"login.required" | translate}}
+  </p>
+
+  <ion-item>
+    <ion-input labelPlacement="stacked" label='{{"login.pwdRepeat" | translate}}' formControlName="passwordRepeat" type="password"></ion-input>
+  </ion-item>
+  <p style='color: red;' *ngIf="form.get('passwordRepeat')?.errors?.['passwordMatch'] && form.get('passwordRepeat')?.touched">
+    {{"login.matchPwd" | translate}}
+  </p>
+
+  <ion-item>
+    <ion-input labelPlacement="stacked" label='{{"login.description" | translate}}' formControlName="description" type="text"></ion-input>
+  </ion-item>
+  <p  style='color: red;' *ngIf="this.form.get('description')?.errors?.['maxlength']">
+    {{"login.descriptionMaxLeght" | translate}}
+  </p>
+
+  <div class="ion-text-end">
+    <ion-button style="text-transform: none;" [disabled]="!form.valid" (click)="onSubmit()">Acceder</ion-button>
+  </div>
+</form>

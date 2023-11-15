@@ -1,0 +1,15 @@
+{
+    "login":{
+        "user":"Usuario",
+        "pwd":"Contraseña",
+        "noAccount":"¿Necesitas una cuenta?",
+        "submit":"Acceder",
+        "name":"Nombre Completo",
+        "email":"Email",
+        "pwdRepeat":"Repetir contraseña",
+        "description":"Descripción(Opcional)",
+        "required":"Este campo es obligatorio",
+        "matchPwd":"Las contraseñas no coinciden",
+        "descriptionMaxLeght":"No puede tener mas de 500 caracteres"
+    }
+}

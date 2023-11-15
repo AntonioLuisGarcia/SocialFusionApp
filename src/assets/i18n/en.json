@@ -1,0 +1,15 @@
+{
+    "login":{
+        "user":"User",
+        "pwd":"Password",
+        "noAccount":"Need an account?",
+        "submit":"Access",
+        "name":"Name",
+        "email":"Email",
+        "pwdRepeat":"Repeat password",
+        "description":"Description(Optional)",
+        "required":"This field is required",
+        "matchPwd":"Passwords do not match",
+        "descriptionMaxLeght":"Cannot be more than 500 characters"
+    }
+}
