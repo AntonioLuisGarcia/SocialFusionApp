@@ -5,22 +5,19 @@
       <ion-card-header>
         <div class="logo">
           <ion-thumbnail>
-            <img alt="logo de SocialFusion" src="../../../assets/icon/favicon.png" />
+            <img alt="logo de SocialFusion" src= "assets/icon/favicon.png" />
           </ion-thumbnail>
           <ion-text> SocialFusion </ion-text>
-          <ion-title >
-            {{"login.user" | translate}}
-          </ion-title>
         </div>
         
       </ion-card-header>
       <ion-card-content>
-        <div class="ion-text-end">
-          <ion-button fill="clear" (click)="changeLogin()" style="text-transform: none;">No tengo cuenta</ion-button>
-        </div>
         <app-login-form *ngIf="showLogin" (onsubmit)="onLogin($event)"></app-login-form>
         <app-create-account-form *ngIf="!showLogin"></app-create-account-form>
       </ion-card-content>
+      <div class="ion-text-end">
+        <ion-button fill="clear" (click)="changeLogin()" style="text-transform: none;">{{"login.createAnAcount" | translate}}</ion-button>
+      </div>
     </ion-card>
   </div>
   

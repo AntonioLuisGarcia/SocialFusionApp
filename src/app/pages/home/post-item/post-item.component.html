@@ -1,3 +1,12 @@
-<p>
-  post-item works!
-</p>
+  <img *ngIf="post?.img" [src]="post?.img" alt="Imagen del post">
+  <p>{{ post?.description }}</p>
+
+  
+  <button (click)="like($event)">Like</button>
+  <button (click)="viewComments($event)">Ver Comentarios</button>
+
+  
+  <form (ngSubmit)="comment($event, commentInput.value)">
+    <input type="text" #commentInput placeholder="Escribe un comentario...">
+    <button type="submit">Comentar</button>
+  </form>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PostExtended } from 'src/app/core/interfaces/post';
 
 @Component({
   selector: 'app-home',
@@ -9,4 +10,17 @@ export class HomePage {
 
   constructor() {}
 
+  posts: PostExtended[] | any;
+
+  onLikePost(){
+
+  }
+
+  onCommentPost(){
+
+  }
+
+  onShowComments(){
+
+  }
 }

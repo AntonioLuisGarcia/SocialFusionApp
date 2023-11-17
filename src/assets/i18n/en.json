@@ -10,6 +10,15 @@
         "description":"Description(Optional)",
         "required":"This field is required",
         "matchPwd":"Passwords do not match",
-        "descriptionMaxLeght":"Cannot be more than 500 characters"
+        "descriptionMaxLeght":"Cannot be more than 500 characters",
+        "createAnAcount":"Create an acount",
+        "passwordProto":"Password must include upper and lower case letters and numbers",
+        "emailValidation":"Type a correct email",
+        "noSpaces":"Username cannot includes spaces"
+    },
+
+    "sideBar":{
+        "search":"Search",
+        "home":"Home"
     }
 }

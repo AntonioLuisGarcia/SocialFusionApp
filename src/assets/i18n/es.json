@@ -10,6 +10,15 @@
         "description":"Descripción(Opcional)",
         "required":"Este campo es obligatorio",
         "matchPwd":"Las contraseñas no coinciden",
-        "descriptionMaxLeght":"No puede tener mas de 500 caracteres"
+        "descriptionMaxLeght":"No puede tener mas de 500 caracteres",
+        "createAnAcount":"Crear una cuenta",
+        "passwordProto":"La contraseña debe tener mayusculas, minusculas y numeros",
+        "emailValidation":"Usa un email correcto",
+        "noSpaces":"Username cannot includes spaces"
+    },
+
+    "sideBar":{
+        "search":"Buscar",
+        "home":"Home"
     }
 }

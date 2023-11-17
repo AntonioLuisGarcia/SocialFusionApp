@@ -1,3 +1,9 @@
-<p>
-  post-list works!
-</p>
+<div *ngFor="let post of posts">
+  <app-post-item
+    [post]="post"
+    (likePost)="onLikePost(post.id)"
+    (viewComments)="onViewComments(post.id)"
+    (commentPost)="onCommentPost(data)">
+  </app-post-item>
+</div>
+

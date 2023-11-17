@@ -5,7 +5,7 @@ import { UserRegister } from '../interfaces/UserRegister';
 import { JwtService } from './jwt.service';
 import { ApiService } from './api.service';
 import { StrapiExtendedUser, StrapiLoginPayload, StrapiLoginResponse, StrapiRegisterPayload, StrapiRegisterResponse, StrapiUser } from '../interfaces/strapi';
-import { User } from '../interfaces/User';
+import { UserExtended } from '../interfaces/User';
 
 
 export class AuthStrapiService extends AuthService{
@@ -88,12 +88,12 @@ export class AuthStrapiService extends AuthService{
     });
   }
 
-  public me():Observable<User>{
-    return new Observable<User>(obs=>{
+  public me():Observable<UserExtended>{
+    return new Observable<UserExtended>(obs=>{
       this.apiSvc.get('/users/me').subscribe({
         next:async (user:StrapiUser)=>{
           let extended_user = await lastValueFrom(this.apiSvc.get(`/extended-users?filters[user_id]=${user.id}`));
-          let ret:User = {
+          let ret:UserExtended = {
             id:user.id,
             name:extended_user.name,
             username:extended_user.username,
