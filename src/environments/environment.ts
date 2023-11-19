@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:1337/api',
+  apiUrl: 'https://socialfusionb.onrender.com/api',
   apiJsonServer: 'http://localhost:3000',
 };
 

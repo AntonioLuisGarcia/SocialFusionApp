@@ -34,7 +34,7 @@ export class AuthStrapiService extends AuthService{
   public login(credentials:UserCredentials):Observable<void>{
     return new Observable<void>(obs=>{
       const _credentials:StrapiLoginPayload = {
-        email:credentials.email,
+        identifier:credentials.username,
         password:credentials.password
       };
       this.apiSvc.post("/auth/local", _credentials).subscribe({
@@ -71,13 +71,13 @@ export class AuthStrapiService extends AuthService{
           let connected = data && data.jwt !='';
           this._logged.next(connected);
           await lastValueFrom(this.jwtSvc.saveToken(data.jwt));
-          const _extended_user:StrapiExtendedUser = {
+          /*const _extended_user:StrapiExtendedUser = {
             name:info.name,
             username:info.username,
             user_id:data.user.id,
             /////////////////////////
           }
-          await lastValueFrom(this.apiSvc.post("/extended_user", _extended_user)).catch;
+          await lastValueFrom(this.apiSvc.post("/extended_user", _extended_user)).catch;*/
           obs.next();
           obs.complete();
         },

@@ -13,7 +13,7 @@
       </ion-card-header>
       <ion-card-content>
         <app-login-form *ngIf="showLogin" (onsubmit)="onLogin($event)"></app-login-form>
-        <app-create-account-form *ngIf="!showLogin"></app-create-account-form>
+        <app-create-account-form *ngIf="!showLogin" (onsubmit)="onRegister($event)"></app-create-account-form>
       </ion-card-content>
       <div class="ion-text-end">
         <ion-button fill="clear" (click)="changeLogin()" style="text-transform: none;">{{"login.createAnAcount" | translate}}</ion-button>

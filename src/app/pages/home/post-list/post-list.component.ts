@@ -10,6 +10,7 @@ import { PostExtended } from 'src/app/core/interfaces/post';
 export class PostListComponent  implements OnInit {
 
   @Input() posts: PostExtended[] = [];
+  
   @Output() likePost = new EventEmitter<number>();
   @Output() viewComments = new EventEmitter<number>();
   @Output() commentPost = new EventEmitter<{ postId: number, userId:number, comment: string }>();

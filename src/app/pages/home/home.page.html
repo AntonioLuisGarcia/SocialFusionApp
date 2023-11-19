@@ -14,7 +14,7 @@
 
   <app-post-list [posts]="posts"></app-post-list>
 
-  <ion-button routerLink="/login">Login</ion-button>
+  <ion-button (click)="onSignOut()">Logout</ion-button>
   <app-post-item></app-post-item>
   <app-post-list></app-post-list>
 </ion-content>

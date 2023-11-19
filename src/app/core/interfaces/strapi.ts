@@ -5,7 +5,7 @@ export interface StrapiUser{
 }
 
 export interface StrapiLoginPayload{
-    email:string,
+    identifier:string,
     password:string
 }
 

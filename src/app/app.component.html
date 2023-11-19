@@ -1,9 +1,4 @@
 <ion-app>
-  <ion-fab slot="fixed" vertical="top" horizontal="start" [edge]="false">
-    <ion-fab-button (click)="onLang()">
-      <ion-label>{{translate.language$ | async | uppercase}}</ion-label>
-    </ion-fab-button>
-  </ion-fab>
   <ion-fab slot="fixed" vertical="top" horizontal="end" [edge]="false">
     <ion-fab-button class="rectangular-button" (click)="use('es')">
       <img src="../assets/images/es.svg" alt="ES"/>

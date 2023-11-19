@@ -13,7 +13,7 @@ export class CreateAccountFormComponent  implements OnInit {
 
   @Input()
 
-  @Output() onsubmit = new EventEmitter<UserRegister>()
+  @Output() onsubmit = new EventEmitter<UserRegister>();
 
   form:FormGroup | null = null;
   constructor(private formBuilder:FormBuilder) {
@@ -30,12 +30,10 @@ export class CreateAccountFormComponent  implements OnInit {
 
   //TODO
   onSubmit(){
-
+    this.onsubmit.emit(this.form?.value);
   }
 
   ngOnInit() {}
 
-  hasError(username:string, error:string){
 
-  }
 }
