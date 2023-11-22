@@ -31,7 +31,9 @@ export function AuthServiceFactory(
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+  ],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 

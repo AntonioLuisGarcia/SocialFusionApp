@@ -7,12 +7,14 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { createTranslateLoader } from '../core/translate/translate';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { FormatDatePipe } from './pipe/format-date.pipe';
 
 
 
 @NgModule({
   declarations: [
     SidebarComponent,
+    FormatDatePipe,
   ],
   imports: [
     CommonModule,
@@ -36,6 +38,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     ReactiveFormsModule,
     TranslateModule,
     SidebarComponent,
+    FormatDatePipe,
   ]
 })
 export class SharedModule { }
