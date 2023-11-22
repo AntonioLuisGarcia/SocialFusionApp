@@ -28,6 +28,20 @@ export class PostService {
     );
   }
 
+  public getPostsByUserId(userId: number): Observable<PostExtended[]> {
+    return this.api.get(`/posts?filters[user][id]=${userId}`).pipe(
+      map(response => response.data.map((item: any) => {
+        return {
+          id: item.id,
+          userId: item.attributes.user.id,
+          description: item.attributes.description,
+          img: item.attributes.img,
+          date: item.attributes.createdAt
+        }
+      }))
+    );
+  }
+
   public updatePost(post:PostExtended):Observable<PostExtended>{
     return this.api.put("post",post);//verificar
   }

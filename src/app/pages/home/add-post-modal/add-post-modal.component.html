@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Añadir Publicación</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+
+    <ion-item>
+      <ion-label position="floating">Título</ion-label>
+      <ion-input formControlName="title" type="text"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="postForm.get('title')?.invalid && postForm.get('title')?.touched">
+      <p>Título es requerido</p>
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">Contenido</ion-label>
+      <ion-textarea formControlName="content"></ion-textarea>
+    </ion-item>
+    <ion-text color="danger" *ngIf="postForm.get('content')?.invalid && postForm.get('content')?.touched">
+      <p>Contenido es requerido</p>
+    </ion-text>
+
+    <ion-button expand="block" type="submit" [disabled]="!postForm.valid">Publicar</ion-button>
+
+  </form>
+</ion-content>

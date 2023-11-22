@@ -13,6 +13,7 @@
   </div>
 
   <app-post-list [posts]="posts"></app-post-list>
+  <ion-button (click)="presentAddPostModal()">Añadir Publicación</ion-button>
 
   <ion-button (click)="onSignOut()">Logout</ion-button>
   <app-post-item></app-post-item>

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { PostExtended } from 'src/app/core/interfaces/post';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { PostService } from 'src/app/core/services/post.service';
+import { AddPostModalComponent } from './add-post-modal/add-post-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +18,7 @@ export class HomePage implements OnInit{
     private auth:AuthService,
     private router:Router,
     private postService:PostService,
+    public modalController: ModalController,
     ) {}
   
   posts: PostExtended[] | any;
@@ -44,5 +47,12 @@ export class HomePage implements OnInit{
     this.auth.logout().subscribe(_=>{
       this.router.navigate(['/login']);
     });  
+  }
+
+  async presentAddPostModal() {
+    const modal = await this.modalController.create({
+      component: AddPostModalComponent,
+    });
+    return await modal.present();
   }
 }
