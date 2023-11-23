@@ -20,5 +20,9 @@
     "sideBar":{
         "search":"Buscar",
         "home":"Home"
+    },
+
+    "home":{
+        "newPost":"Nueva Publicación"
     }
 }

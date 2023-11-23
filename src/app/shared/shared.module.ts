@@ -8,12 +8,14 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { createTranslateLoader } from '../core/translate/translate';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { FormatDatePipe } from './pipe/format-date.pipe';
+import { ImageSelectableComponent } from './components/image-selectable/image-selectable.component';
 
 
 
 @NgModule({
   declarations: [
     SidebarComponent,
+    ImageSelectableComponent,
     FormatDatePipe,
   ],
   imports: [
@@ -38,6 +40,7 @@ import { FormatDatePipe } from './pipe/format-date.pipe';
     ReactiveFormsModule,
     TranslateModule,
     SidebarComponent,
+    ImageSelectableComponent,
     FormatDatePipe,
   ]
 })

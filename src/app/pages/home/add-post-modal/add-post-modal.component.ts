@@ -14,11 +14,11 @@ export class AddPostModalComponent  implements OnInit {
   
   constructor(
     private modalController: ModalController,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) {
     this.postForm = this.formBuilder.group({
-      title: ['', Validators.required],
-      content: ['', Validators.required],
+      description: ['', Validators.required],
+      image: [''],
     });
   }
 
@@ -29,9 +29,13 @@ export class AddPostModalComponent  implements OnInit {
 
   onSubmit() {
     if (this.postForm.valid) {
-      // Lógica para enviar los datos del formulario
-      // Después de enviar, puedes cerrar el modal también
-      this.dismissModal();
+      const post = {
+        image: this.postForm.get('image')?.value || null, // Si la imagen es nula, asignamos null
+        description: this.postForm.get('description')?.value
+      };
+  
+      // Se cierra el modal y devolvemos el mensaje de 'ok' y el post
+      this.modalController.dismiss({ post: post, status: 'ok' });
     }
   }
   

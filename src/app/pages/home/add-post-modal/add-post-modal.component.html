@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Añadir Publicación</ion-title>
+    <ion-title>{{ "home.newPost" | translate}}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="dismissModal()">Cerrar</ion-button>
     </ion-buttons>
@@ -10,20 +10,14 @@
 <ion-content>
   <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
 
-    <ion-item>
-      <ion-label position="floating">Título</ion-label>
-      <ion-input formControlName="title" type="text"></ion-input>
-    </ion-item>
-    <ion-text color="danger" *ngIf="postForm.get('title')?.invalid && postForm.get('title')?.touched">
-      <p>Título es requerido</p>
-    </ion-text>
+    <app-image-selectable formControlName="image"></app-image-selectable>
 
     <ion-item>
-      <ion-label position="floating">Contenido</ion-label>
-      <ion-textarea formControlName="content"></ion-textarea>
+      <ion-label position="floating">Description</ion-label>
+      <ion-input formControlName="description" type="text"></ion-input>
     </ion-item>
-    <ion-text color="danger" *ngIf="postForm.get('content')?.invalid && postForm.get('content')?.touched">
-      <p>Contenido es requerido</p>
+    <ion-text color="danger" *ngIf="postForm.get('description')?.invalid && postForm.get('description')?.touched">
+      <p>Campo obligatorio</p>
     </ion-text>
 
     <ion-button expand="block" type="submit" [disabled]="!postForm.valid">Publicar</ion-button>

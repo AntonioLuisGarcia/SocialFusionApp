@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { PostExtended } from 'src/app/core/interfaces/post';
+import { Post, PostExtended } from 'src/app/core/interfaces/post';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { PostService } from 'src/app/core/services/post.service';
 import { AddPostModalComponent } from './add-post-modal/add-post-modal.component';
+import { UserExtended } from 'src/app/core/interfaces/User';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +23,7 @@ export class HomePage implements OnInit{
     ) {}
   
   posts: PostExtended[] | any;
+  me: UserExtended | any;
   
   
   ngOnInit() {
@@ -29,6 +31,8 @@ export class HomePage implements OnInit{
     this.postService.getAllPost().subscribe((data) => {
       this.posts = data;
     });
+
+    this.auth.me().subscribe((data)=> this.me = data);
   }
 
   onLikePost(){
@@ -51,8 +55,34 @@ export class HomePage implements OnInit{
 
   async presentAddPostModal() {
     const modal = await this.modalController.create({
-      component: AddPostModalComponent,
+      component: AddPostModalComponent
     });
-    return await modal.present();
+  
+    await modal.present();
+  
+    const { data } = await modal.onDidDismiss();
+    if (data && data.status === 'ok') {
+      // Obtener detalles del usuario
+      this.auth.me().subscribe(
+        user => {
+        const newPost: Post = {
+          img: data.post.img ? data.post.img : null, // verificar esto
+          description: data.post.description,
+          userId: user.id
+        };
+  
+        // Hacemos el post de la nueva publicación
+        this.postService.postPost(newPost).subscribe({
+          next: (response) => {
+            // Manejar la respuesta
+          },
+          error: (error) => {
+            console.error('Error al crear el post', error);
+          }
+        });
+      });
+    }
   }
+
+
 }

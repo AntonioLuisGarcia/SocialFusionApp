@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import { BehaviorSubject, Observable, map } from 'rxjs';
-import { PostExtended } from '../interfaces/post';
+import { BehaviorSubject, Observable, map, tap } from 'rxjs';
+import { Post, PostExtended } from '../interfaces/post';
 
 @Injectable({
   providedIn: 'root'
@@ -50,11 +50,26 @@ export class PostService {
     return this.api.patch("post",post);//verificar
   }
 
-  public postPost(post:PostExtended):Observable<PostExtended>{
-    return this.api.post("post",post);//verificar
+  public postPost(post:Post):Observable<PostExtended>{ //mirar si devuelve post o postextended
+    const body = {
+      data: { 
+        description: post.description,
+        image: post.img, // `null` o la imagen 
+        user: post.userId
+      }
+    };
+    return this.api.post("/posts",body).pipe(
+      tap((response: any) => {
+        //Para actualizar el BehaviorSubject
+        const newPost = response.data;
+        this._posts.next([...this._posts.value, newPost]);
+      })
+    );
   }
 
   public deletePost(post:PostExtended):Observable<PostExtended>{
     return this.api.delete("post",post);//verificar
   }
 }
+
+

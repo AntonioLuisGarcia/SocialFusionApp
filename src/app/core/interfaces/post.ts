@@ -1,7 +1,7 @@
 export interface Post{
-    img?:string,
+    img:string | undefined | null,
     description:string,
-    date: string,
+    userId:number
 }
 
 export interface PostExtended{

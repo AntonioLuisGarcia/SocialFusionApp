@@ -20,5 +20,9 @@
     "sideBar":{
         "search":"Search",
         "home":"Home"
+    },
+
+    "home":{
+        "newPost":"New Post"
     }
 }
