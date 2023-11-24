@@ -24,6 +24,7 @@ export class PostItemComponent  implements OnInit {
   //Si pulsan el like lanzamos el evento al padre
   like(event:any){
     if (this.post && this.post.id){
+      console.log("LLega")
       this.onLikePost.emit(this.post?.id)
     }  
     event.stopPropagation();

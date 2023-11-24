@@ -4,10 +4,14 @@ export interface Post{
     userId:number
 }
 
-export interface PostExtended{
-    id:number,
-    userId:number,
-    img?:string,
-    description:string,
-    date: string,
-}
+export interface PostExtended {
+    id: number;
+    description: string;
+    img?: string;
+    date: string;
+    user: {
+      id: number;
+      username: string;
+      name?: string;
+    };
+  }

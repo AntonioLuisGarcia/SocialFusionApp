@@ -28,6 +28,24 @@ export class PostService {
     );
   }
 
+  public getAllPostsWithUser(): Observable<PostExtended[]> {
+    return this.api.get("/posts?populate=user").pipe(
+      map(response => response.data.map((item: any) => {
+        return {
+          id: item.id,
+          description: item.attributes.description,
+          img: item.attributes.image?.data?.attributes.url, // Asegúrate de que esto se ajuste a la estructura de tu API
+          date: item.attributes.createdAt,
+          user: {
+            id: item.attributes.user.data.id,
+            username: item.attributes.user.data.attributes.username,
+            name: item.attributes.user.data.attributes.name
+          }
+        };
+      }))
+    );
+  }
+
   public getPostsByUserId(userId: number): Observable<PostExtended[]> {
     return this.api.get(`/posts?filters[user][id]=${userId}`).pipe(
       map(response => response.data.map((item: any) => {

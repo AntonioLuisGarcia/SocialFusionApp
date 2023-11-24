@@ -1,9 +1,10 @@
   <img *ngIf="post?.img" [src]="post?.img" alt="Imagen del post">
+  <p>{{ post?.user?.username }}</p>
   <p>{{ post?.description }}</p>
   <p *ngIf="post?.date">{{ post?.date | formatDate }}</p>
 
   
-  <button (click)="like($event)">Like</button>
+  <ion-icon name="thumbs-up" (click)="like($event)"></ion-icon>
   <button (click)="viewComments($event)">Ver Comentarios</button>
 
   

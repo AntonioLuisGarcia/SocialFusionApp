@@ -28,7 +28,7 @@ export class HomePage implements OnInit{
   
   ngOnInit() {
     // Suscribirse al observable para obtener los posts
-    this.postService.getAllPost().subscribe((data) => {
+    this.postService.getAllPostsWithUser().subscribe((data) => {
       this.posts = data;
     });
 
