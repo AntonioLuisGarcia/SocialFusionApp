@@ -1,14 +1,25 @@
-  <img *ngIf="post?.img" [src]="post?.img" alt="Imagen del post">
-  <p>{{ post?.user?.username }}</p>
-  <p>{{ post?.description }}</p>
-  <p *ngIf="post?.date">{{ post?.date | formatDate }}</p>
+<ion-card>
+  <img *ngIf="post?.img" [src]="post?.img" alt="Imagen del post" />
 
-  
-  <ion-icon name="thumbs-up" (click)="like($event)"></ion-icon>
-  <button (click)="viewComments($event)">Ver Comentarios</button>
+  <ion-card-header>
+    <ion-card-title>{{ post?.user?.username }}</ion-card-title>
+    <ion-card-subtitle>{{ post?.date | formatDate }}</ion-card-subtitle>
+  </ion-card-header>
 
-  
+  <ion-card-content>
+    <p>{{ post?.description }}</p>
+
+    <ion-icon name="thumbs-up" (click)="like($event)"></ion-icon>
+    <button ion-button small (click)="viewComments($event)">Ver Comentarios</button>
+
+      
   <form (ngSubmit)="comment($event, commentInput.value)">
     <input type="text" #commentInput placeholder="Escribe un comentario...">
     <button type="submit">Comentar</button>
   </form>
+
+  </ion-card-content>
+</ion-card>
+  
+
+
