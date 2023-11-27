@@ -14,4 +14,5 @@ export interface PostExtended {
       username: string;
       name?: string;
     };
+    likedByUser?: boolean;
   }

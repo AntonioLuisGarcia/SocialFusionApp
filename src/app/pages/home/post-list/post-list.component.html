@@ -2,7 +2,7 @@
   <div *ngFor="let post of posts">
     <app-post-item
       [post]="post"
-      (likePost)="onLikePost(post.id)"
+      (onLikePost)="onLikePost($event)"
       (viewComments)="onViewComments(post.id)"
       (commentPost)="onCommentPost(data)">
     </app-post-item>

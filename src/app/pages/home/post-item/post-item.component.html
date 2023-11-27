@@ -9,7 +9,11 @@
   <ion-card-content>
     <p>{{ post?.description }}</p>
 
-    <ion-icon name="thumbs-up" (click)="like($event)"></ion-icon>
+    <ion-icon
+      name="thumbs-up"
+      [ngStyle]="{'color': post?.likedByUser ? 'blue' : 'black'}"
+      (click)="like($event)"
+      ></ion-icon>
     <button ion-button small (click)="viewComments($event)">Ver Comentarios</button>
 
       

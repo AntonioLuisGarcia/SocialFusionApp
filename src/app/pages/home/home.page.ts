@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { PostService } from 'src/app/core/services/post.service';
 import { AddPostModalComponent } from './add-post-modal/add-post-modal.component';
 import { UserExtended } from 'src/app/core/interfaces/User';
+import { LikeService } from 'src/app/core/services/like.service';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +20,9 @@ export class HomePage implements OnInit{
     private auth:AuthService,
     private router:Router,
     private postService:PostService,
+    private likeService:LikeService,
     public modalController: ModalController,
+
     ) {}
   
   posts: PostExtended[] | any;
@@ -27,16 +30,32 @@ export class HomePage implements OnInit{
   
   
   ngOnInit() {
-    // Suscribirse al observable para obtener los posts
-    this.postService.getAllPostsWithUser().subscribe((data) => {
-      this.posts = data;
-    });
+    this.auth.me().subscribe((data) => {
+      this.me = data;
 
-    this.auth.me().subscribe((data)=> this.me = data);
+      // Ahora que tenemos `this.me`, podemos obtener los posts
+      if (this.me && this.me.id) {
+        this.postService.posts$.subscribe((posts) => {
+          this.posts = posts;
+        });
+        this.postService.fetchAndEmitPosts(data.id);
+      }
+    });
   }
 
-  onLikePost(){
-    // el servicio de post y like creara el registro de usuario y post
+  onLikePost(postId:number){
+
+    this.auth.me().subscribe((data) =>{
+      this.likeService.onLike(postId, data.id).subscribe({
+        next: (response) => {
+          this.postService.updatePostLike(postId,response.like)
+          this.postService.fetchAndEmitPosts(this.me.id)
+        },
+        error: (error) => {
+          console.error('Error al cambiar el estado del like', error);
+        }
+      });
+    })
   }
   
   onCommentPost(){
@@ -74,7 +93,7 @@ export class HomePage implements OnInit{
         // Hacemos el post de la nueva publicación
         this.postService.postPost(newPost).subscribe({
           next: (response) => {
-            // Manejar la respuesta
+            this.postService.fetchAndEmitPosts(this.me.id);
           },
           error: (error) => {
             console.error('Error al crear el post', error);
@@ -83,6 +102,5 @@ export class HomePage implements OnInit{
       });
     }
   }
-
 
 }

@@ -7,7 +7,11 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-post-list [posts]="posts"></app-post-list>
+  <app-post-list 
+  [posts]="posts"
+  (likePost)="onLikePost($event)"
+  (onCommentPost)="onCommentPost()"
+  (onViewComments)="onShowComments()"></app-post-list>
   <ion-button (click)="presentAddPostModal()">Añadir Publicación</ion-button>
 
   <ion-button (click)="onSignOut()">Logout</ion-button>
