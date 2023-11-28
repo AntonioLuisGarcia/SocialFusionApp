@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Observable, map} from 'rxjs';
-import { CommentExtended } from '../interfaces/Comment';
+import { Comment, CommentExtended, CommentWithUserName } from '../interfaces/Comment';
 
 
 
@@ -16,17 +16,27 @@ export class CommentService {
 
   }
 
-  getCommentForPots(postId:number):Observable<CommentExtended[]>{
+  getCommentForPots(postId:number):Observable<CommentWithUserName[]>{
       return this.api.get(`/comments?populate=*&filters[post]=${postId}`).pipe(map( 
         response => response.data.map( (comment:any) => {
           return {
             id: comment.id,
             text: comment.attributes.text,
             postId: comment.attributes.post.data.id,
-            userId: comment.attributes.user.data.id,
+            user: comment.attributes.user.data.attributes.username,
           }
         })
       ));
   }
 
+  addComment(comment:Comment){
+    const body = {
+      data:{
+        text: comment.text,
+        post: comment.postId,
+        user: comment.userId,
+      }
+    }
+    return this.api.post(`/comments`,body)
+  }
 }

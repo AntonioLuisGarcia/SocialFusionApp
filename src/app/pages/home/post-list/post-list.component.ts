@@ -14,7 +14,6 @@ export class PostListComponent  implements OnInit {
   @Output() likePost = new EventEmitter<number>();
   @Output() viewComments = new EventEmitter<number>();
   @Output() commentPost = new EventEmitter<Comment>();
-  data: { postId: number; userId: number; comment: string; } | any;
 
   constructor() { }
 
@@ -28,7 +27,8 @@ export class PostListComponent  implements OnInit {
     this.viewComments.emit(postId);
   }
 
-  onCommentPost(data: Comment) {
-    this.commentPost.emit(data); // paso directamente data
+  onCommentPost(comment: Comment) {
+    console.log("Comentario recibido en PostListComponent:", comment);
+    this.commentPost.emit(comment); // paso directamente data
   }
 }

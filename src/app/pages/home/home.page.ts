@@ -39,9 +39,7 @@ export class HomePage implements OnInit{
   ngOnInit() {
     this.auth.me().subscribe((data) => {
       this.me = data;
-      let comment = this.commentService.getCommentForPots(1).subscribe(
-        data => console.log(data)
-      )
+
       // Ahora que tenemos `this.me`, podemos obtener los posts
       if (this.me && this.me.id) {
         this.postService.posts$.subscribe((posts) => {
@@ -68,18 +66,26 @@ export class HomePage implements OnInit{
   }
   
   onCommentPost(comment:Comment){
-    // el servicio creara la relacion de post y comments y añadira el id del usuario para saber a quien corresponde el comentario
+    this.auth.me().subscribe((data) =>{
+        console.log(comment.text)
+        comment.userId = data.id
+        this.commentService.addComment(comment).subscribe()  
+    })    
   }
   
   async onShowComments(postId: number) {
-    const modal = await this.modalController.create({
-      component: CommentModalComponent,
-      componentProps: {
-        'postId': postId, // Pasamos el postId como propiedad al modal
-      }
+    this.commentService.getCommentForPots(postId).subscribe(async (comments) => {
+      const modal = await this.modalController.create({
+        component: CommentModalComponent,
+        componentProps: {
+          'postId': postId,
+          'comments': comments // Pasamos los comentarios como propiedad al modal
+        }
+      });
+      await modal.present();
     });
-    await modal.present();
   }
+  
 
   onSignOut() {
     this.auth.logout().subscribe(_=>{

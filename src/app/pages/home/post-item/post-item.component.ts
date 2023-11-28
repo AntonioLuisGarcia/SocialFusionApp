@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 import { UserExtended } from 'src/app/core/interfaces/User';
 import { PostExtended } from 'src/app/core/interfaces/post';
 import { Comment } from 'src/app/core/interfaces/Comment';
@@ -9,6 +9,8 @@ import { Comment } from 'src/app/core/interfaces/Comment';
   styleUrls: ['./post-item.component.scss'],
 })
 export class PostItemComponent  implements OnInit {
+
+  @ViewChild('commentInput') commentInput: ElementRef | undefined;
 
   @Input() post:PostExtended | null = null; //Uso el PostExtended para tener el id y poder usarlo en los eventos
   @Input() user:UserExtended | null = null; //Puedo usar solo user porque el username no se puede repetir, y con eso ya podria buscarlo
@@ -41,11 +43,13 @@ export class PostItemComponent  implements OnInit {
   comment(event:any, comment:string){
     if(this.post && this.post.id){
       this.onCommentPost.emit({
-        text:(comment),
-        postId: (this.post.id),
-        userId:(this.user?.id),
-      })
+        text: comment,
+        postId: this.post.id,
+        // Incluye cualquier otra propiedad necesaria
+      });
+      this.commentInput!.nativeElement.value = '';
     }
+
     event.stopPropagation();
   }
 }

@@ -19,7 +19,9 @@
       
   <form (ngSubmit)="comment($event, commentInput.value)">
     <input type="text" #commentInput placeholder="Escribe un comentario...">
-    <button type="submit">Comentar</button>
+    <button type="submit" ion-button small>
+      <ion-icon name="send"></ion-icon>
+    </button>
   </form>
 
   </ion-card-content>

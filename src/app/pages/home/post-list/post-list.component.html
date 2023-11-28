@@ -3,8 +3,8 @@
     <app-post-item
       [post]="post"
       (onLikePost)="onLikePost($event)"
-      (viewComments)="onViewComments(post.id)"
-      (commentPost)="onCommentPost(data)">
+      (onViewComments)="onViewComments(post.id)"
+      (onCommentPost)="onCommentPost($event)">
     </app-post-item>
   </div>
 </div>
