@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { UserExtended } from 'src/app/core/interfaces/User';
-import { CommentEvent } from 'src/app/core/interfaces/comment';
 import { PostExtended } from 'src/app/core/interfaces/post';
+import { Comment } from 'src/app/core/interfaces/Comment';
 
 @Component({
   selector: 'app-post-item',
@@ -14,7 +14,7 @@ export class PostItemComponent  implements OnInit {
   @Input() user:UserExtended | null = null; //Puedo usar solo user porque el username no se puede repetir, y con eso ya podria buscarlo
 
   @Output() onLikePost: EventEmitter<number> = new EventEmitter<number>();
-  @Output() onCommentPost: EventEmitter<CommentEvent> = new EventEmitter<CommentEvent>();
+  @Output() onCommentPost: EventEmitter<Comment> = new EventEmitter<Comment>();
   @Output() onViewComments: EventEmitter<number> = new EventEmitter<number>();
 
   constructor() { }
@@ -41,9 +41,9 @@ export class PostItemComponent  implements OnInit {
   comment(event:any, comment:string){
     if(this.post && this.post.id){
       this.onCommentPost.emit({
+        text:(comment),
         postId: (this.post.id),
         userId:(this.user?.id),
-        comment:(comment)
       })
     }
     event.stopPropagation();

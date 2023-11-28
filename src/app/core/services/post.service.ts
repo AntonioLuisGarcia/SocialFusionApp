@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import { BehaviorSubject, Observable, concatMap, forkJoin, map, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, concatMap, map, of} from 'rxjs';
 import { Post, PostExtended } from '../interfaces/post';
 import { LikeService } from './like.service';
 

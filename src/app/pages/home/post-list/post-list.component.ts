@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CommentEvent } from 'src/app/core/interfaces/comment';
 import { PostExtended } from 'src/app/core/interfaces/post';
 
 @Component({

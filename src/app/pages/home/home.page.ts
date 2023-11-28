@@ -7,6 +7,8 @@ import { PostService } from 'src/app/core/services/post.service';
 import { AddPostModalComponent } from './add-post-modal/add-post-modal.component';
 import { UserExtended } from 'src/app/core/interfaces/User';
 import { LikeService } from 'src/app/core/services/like.service';
+import { CommentService } from 'src/app/core/services/comment.service';
+import { CommentModalComponent } from '../comment-modal/comment-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +23,7 @@ export class HomePage implements OnInit{
     private router:Router,
     private postService:PostService,
     private likeService:LikeService,
+    private commentService:CommentService,
     public modalController: ModalController,
 
     ) {}
@@ -32,7 +35,9 @@ export class HomePage implements OnInit{
   ngOnInit() {
     this.auth.me().subscribe((data) => {
       this.me = data;
-
+      let comment = this.commentService.getCommentForPots(1).subscribe(
+        data => console.log(data)
+      )
       // Ahora que tenemos `this.me`, podemos obtener los posts
       if (this.me && this.me.id) {
         this.postService.posts$.subscribe((posts) => {
@@ -62,8 +67,14 @@ export class HomePage implements OnInit{
     // el servicio creara la relacion de post y comments y añadira el id del usuario para saber a quien corresponde el comentario
   }
   
-  onShowComments(){
-    // aqui saltara el modal con todos los comentarios del post seleccionado por su id
+  async onShowComments(postId: number) {
+    const modal = await this.modalController.create({
+      component: CommentModalComponent,
+      componentProps: {
+        'postId': postId, // Pasamos el postId como propiedad al modal
+      }
+    });
+    await modal.present();
   }
 
   onSignOut() {
