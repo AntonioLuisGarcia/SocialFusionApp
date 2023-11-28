@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Comment } from 'src/app/core/interfaces/Comment';
 import { PostExtended } from 'src/app/core/interfaces/post';
 
 @Component({
@@ -12,7 +13,7 @@ export class PostListComponent  implements OnInit {
   
   @Output() likePost = new EventEmitter<number>();
   @Output() viewComments = new EventEmitter<number>();
-  @Output() commentPost = new EventEmitter<{ postId: number, userId:number, comment: string }>();
+  @Output() commentPost = new EventEmitter<Comment>();
   data: { postId: number; userId: number; comment: string; } | any;
 
   constructor() { }
@@ -27,7 +28,7 @@ export class PostListComponent  implements OnInit {
     this.viewComments.emit(postId);
   }
 
-  onCommentPost(data: { postId: number, userId: number, comment: string }) {
+  onCommentPost(data: Comment) {
     this.commentPost.emit(data); // paso directamente data
   }
 }

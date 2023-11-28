@@ -7,7 +7,7 @@ import { PostItemComponent } from './post-item/post-item.component';
 import { PostListComponent } from './post-list/post-list.component';
 import { AddPostModalComponent } from './add-post-modal/add-post-modal.component';
 import { CommentItemComponent } from './comment-item/comment-item.component';
-import { CommentModalComponent } from '../comment-modal/comment-modal.component';
+import { CommentModalComponent } from './comment-modal/comment-modal.component';
 
 
 @NgModule({

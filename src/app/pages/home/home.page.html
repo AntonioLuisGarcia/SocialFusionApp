@@ -10,8 +10,9 @@
   <app-post-list 
   [posts]="posts"
   (likePost)="onLikePost($event)"
-  (onCommentPost)="onCommentPost()"
+  (commentPost)="onCommentPost($event)"
   (viewComments)="onShowComments($event)"></app-post-list>
+
   <ion-button (click)="presentAddPostModal()">Añadir Publicación</ion-button>
 
   <ion-button (click)="onSignOut()">Logout</ion-button>

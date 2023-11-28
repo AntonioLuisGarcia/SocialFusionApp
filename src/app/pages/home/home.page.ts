@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+
 import { Post, PostExtended } from 'src/app/core/interfaces/post';
+import { UserExtended } from 'src/app/core/interfaces/User';
+import { Comment } from 'src/app/core/interfaces/Comment';
+
 import { AuthService } from 'src/app/core/services/auth.service';
 import { PostService } from 'src/app/core/services/post.service';
-import { AddPostModalComponent } from './add-post-modal/add-post-modal.component';
-import { UserExtended } from 'src/app/core/interfaces/User';
 import { LikeService } from 'src/app/core/services/like.service';
 import { CommentService } from 'src/app/core/services/comment.service';
-import { CommentModalComponent } from '../comment-modal/comment-modal.component';
+
+import { AddPostModalComponent } from './add-post-modal/add-post-modal.component';
+import { CommentModalComponent } from './comment-modal/comment-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -63,7 +67,7 @@ export class HomePage implements OnInit{
     })
   }
   
-  onCommentPost(){
+  onCommentPost(comment:Comment){
     // el servicio creara la relacion de post y comments y añadira el id del usuario para saber a quien corresponde el comentario
   }
   
