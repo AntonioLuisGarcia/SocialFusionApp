@@ -7,14 +7,18 @@
     </ion-toolbar>
   </ion-header>
 
+  <ion-button (click)="presentAddPostModal()">Añadir Publicación</ion-button>
+
+  <ion-button (click)="onSignOut()">Logout</ion-button>
+
+  <ion-button (click)="navigateToPersonaPage()">Ir a Persona Page</ion-button>
+
+
   <app-post-list 
   [posts]="posts"
   (likePost)="onLikePost($event)"
   (commentPost)="onCommentPost($event)"
   (viewComments)="onShowComments($event)"></app-post-list>
 
-  <ion-button (click)="presentAddPostModal()">Añadir Publicación</ion-button>
-
-  <ion-button (click)="onSignOut()">Logout</ion-button>
 
 </ion-content>

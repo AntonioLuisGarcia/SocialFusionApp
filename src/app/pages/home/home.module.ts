@@ -3,8 +3,8 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { PostItemComponent } from './post-item/post-item.component';
-import { PostListComponent } from './post-list/post-list.component';
+import { PostItemComponent } from '../../shared/components/post-item/post-item.component';
+import { PostListComponent } from '../../shared/components/post-list/post-list.component';
 import { AddPostModalComponent } from './add-post-modal/add-post-modal.component';
 import { CommentItemComponent } from './comment-item/comment-item.component';
 import { CommentModalComponent } from './comment-modal/comment-modal.component';
@@ -17,16 +17,12 @@ import { CommentModalComponent } from './comment-modal/comment-modal.component';
   ],
   declarations: [
     HomePage,
-    PostItemComponent,
-    PostListComponent,
     AddPostModalComponent,
     CommentItemComponent,
     CommentModalComponent
   ],
   exports:[
     HomePage,
-    PostItemComponent,
-    PostListComponent,
     AddPostModalComponent,
     CommentItemComponent,
     CommentModalComponent

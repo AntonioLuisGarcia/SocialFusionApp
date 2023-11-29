@@ -90,17 +90,17 @@ export class AuthStrapiService extends AuthService{
 
   public me():Observable<UserExtended>{
     return new Observable<UserExtended>(obs=>{
-      this.apiSvc.get('/users/me').subscribe({
-        next:async (user:StrapiUser)=>{
+      this.apiSvc.get('/users/me?populate=*').subscribe({
+        next:async (user:any)=>{
           let extended_user = await lastValueFrom(this.apiSvc.get(`/users?filters[id]=${user.id}`));
           let ret:UserExtended = {
             id:user.id,
-            name:extended_user.name,
-            username:extended_user.username,
-            email:extended_user.email,
-            password:extended_user.password,
-            description:extended_user.description,
-            img:extended_user.img,
+            name:user.name,
+            username:user.username,
+            email:user.email,
+            password:user.password,
+            description:user.description,
+            img:user.img,
           }
           obs.next(ret);
           obs.complete();

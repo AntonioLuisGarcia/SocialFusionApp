@@ -93,6 +93,10 @@ export class HomePage implements OnInit{
     });  
   }
 
+  navigateToPersonaPage() {
+    this.router.navigate(['/personal']);
+  }
+
   async presentAddPostModal() {
     const modal = await this.modalController.create({
       component: AddPostModalComponent

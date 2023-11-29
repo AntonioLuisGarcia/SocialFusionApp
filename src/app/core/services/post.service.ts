@@ -60,13 +60,13 @@ export class PostService {
   }
 
   public getPostsByUserId(userId: number): Observable<PostExtended[]> {
-    return this.api.get(`/posts?filters[user][id]=${userId}`).pipe(
+    return this.api.get(`/posts?populate=*&filters[user]=${userId}`).pipe(
       map(response => response.data.map((item: any) => {
         return {
           id: item.id,
-          userId: item.attributes.user.id,
+          userId: item.attributes.user.data.id,
           description: item.attributes.description,
-          img: item.attributes.img,
+          img: item.attributes.image.data ? item.attributes.image.data.attributes.formats.medium.url : null,
           date: item.attributes.createdAt
         }
       }))

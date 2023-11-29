@@ -3,7 +3,7 @@ export interface UserExtended{
     name:string,
     username:string,
     email:string,
-    password:string,
+    password?:string,
     description?:string,
     img?:string,
 }

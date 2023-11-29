@@ -9,12 +9,16 @@ import { createTranslateLoader } from '../core/translate/translate';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { FormatDatePipe } from './pipe/format-date.pipe';
 import { ImageSelectableComponent } from './components/image-selectable/image-selectable.component';
+import { PostItemComponent } from './components/post-item/post-item.component';
+import { PostListComponent } from './components/post-list/post-list.component';
 
 
 
 @NgModule({
   declarations: [
     SidebarComponent,
+    PostItemComponent,
+    PostListComponent,
     ImageSelectableComponent,
     FormatDatePipe,
   ],
@@ -41,6 +45,8 @@ import { ImageSelectableComponent } from './components/image-selectable/image-se
     TranslateModule,
     SidebarComponent,
     ImageSelectableComponent,
+    PostItemComponent,
+    PostListComponent,
     FormatDatePipe,
   ]
 })
