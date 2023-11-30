@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { PostExtended } from 'src/app/core/interfaces/post';
 
 @Component({
   selector: 'app-add-post-modal',
@@ -10,8 +11,9 @@ import { ModalController } from '@ionic/angular';
 export class AddPostModalComponent  implements OnInit {
 
   postForm: FormGroup;
+  @Input() existingPost: PostExtended | null = null;
 
-  
+
   constructor(
     private modalController: ModalController,
     private formBuilder: FormBuilder,
@@ -30,6 +32,7 @@ export class AddPostModalComponent  implements OnInit {
   onSubmit() {
     if (this.postForm.valid) {
       const post = {
+        id: this.existingPost?.id || null, //si lo usamos para editar tendra id, si es para crear un post se lo asignaremos luego
         image: this.postForm.get('image')?.value || null, // Si la imagen es nula, asignamos null
         description: this.postForm.get('description')?.value
       };
@@ -39,6 +42,13 @@ export class AddPostModalComponent  implements OnInit {
     }
   }
   
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.existingPost) {
+      this.postForm.patchValue({
+        description: this.existingPost.description,
+        image: this.existingPost.img 
+      });
+    }
+  }
 
 }

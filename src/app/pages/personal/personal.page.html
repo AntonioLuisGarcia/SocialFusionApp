@@ -16,7 +16,10 @@
   ></app-user-info>
 
   <app-post-list 
-  [posts]="userPosts"
+  [posts]="userPosts"  
+  [showEditDeleteButtons]="true"
+  (editPost)="onEditPost($event)"
+  (deletePost)="onDeletePost($event)"
   (likePost)="onLikePost($event)"
   (commentPost)="onCommentPost($event)"
   (viewComments)="onShowComments($event)"></app-post-list>

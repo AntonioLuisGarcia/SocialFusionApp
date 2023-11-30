@@ -11,11 +11,12 @@
 
   <ion-button (click)="onSignOut()">Logout</ion-button>
 
-  <ion-button (click)="navigateToPersonaPage()">Ir a Persona Page</ion-button>
+  <ion-button (click)="navigateToPersonalPage()">Ir a Personal Page</ion-button>
 
 
   <app-post-list 
   [posts]="posts"
+  [showEditDeleteButtons]="false"
   (likePost)="onLikePost($event)"
   (commentPost)="onCommentPost($event)"
   (viewComments)="onShowComments($event)"></app-post-list>

@@ -1,4 +1,14 @@
 <ion-card>
+
+  <div *ngIf="showEditDeleteButtons">
+    <ion-button (click)="editPost($event)">
+      <ion-icon name="create"></ion-icon> <!-- Icono de editar -->
+    </ion-button>
+    <ion-button (click)="deletePost($event)">
+      <ion-icon name="trash"></ion-icon> <!-- Icono de borrar -->
+    </ion-button>
+  </div>
+
   <img *ngIf="post?.img" [src]="post?.img" alt="Imagen del post" />
 
   <ion-card-header>

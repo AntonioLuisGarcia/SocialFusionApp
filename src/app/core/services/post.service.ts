@@ -11,7 +11,6 @@ export class PostService {
 
   constructor(
     private api:ApiService,
-    private likeService:LikeService,
     ) { }
 
   
@@ -23,6 +22,28 @@ export class PostService {
     this.getPostsForUser(id).subscribe(posts => {
       this._posts.next(posts);
     });
+  }
+
+  public getPostById(id: number): Observable<any> {
+    return this.api.get(`/posts/${id}?populate=user,likes.user`).pipe(
+      map(response => {
+        const item = response.data;
+        // Ahora transforma los datos de acuerdo con tu estructura esperada
+        return {
+          id: item.id,
+          description: item.attributes.description,
+          img: item.attributes.image?.data?.attributes.url, // Si esperas una imagen, asegúrate de que este camino sea correcto
+          date: item.attributes.createdAt,
+          user: item.attributes.user.data ? {
+            id: item.attributes.user.data.id,
+            username: item.attributes.user.data.attributes.username,
+            name: item.attributes.user.data.attributes.name,
+            // Incluye aquí cualquier otro campo que necesites del usuario
+          } : null,
+          // Si necesitas información sobre los likes, deberías transformarlos aquí también
+        };
+      })
+    );
   }
 
   public getAllPost(): Observable<PostExtended[]> {
@@ -74,11 +95,18 @@ export class PostService {
   }
 
   public updatePost(post:PostExtended):Observable<PostExtended>{
-    return this.api.put("post",post);//verificar
+
+    const data = {
+      data:{
+        description: post.description,
+        image: post.img
+      }
+    }
+        return this.api.put(`/posts/${post.id}`, data)
   }
 
   public patchPost(post:PostExtended):Observable<PostExtended>{
-    return this.api.patch("post",post);//verificar
+    return this.api.patch(`/posts/${post.id}`,post);//verificar
   }
 
   public postPost(post:Post):Observable<PostExtended>{ //mirar si devuelve post o postextended
@@ -124,8 +152,8 @@ export class PostService {
   }
    */
 
-  public deletePost(post:PostExtended):Observable<PostExtended>{
-    return this.api.delete("post",post);//verificar
+  public deletePost(postId:number):Observable<PostExtended>{
+    return this.api.delete(`/posts/${postId}`);//verificar
   }
 
   /*getPostsForUser(userId: number): Observable<PostExtended[]> {

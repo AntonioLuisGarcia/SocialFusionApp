@@ -11,7 +11,7 @@ import { PostService } from 'src/app/core/services/post.service';
 import { LikeService } from 'src/app/core/services/like.service';
 import { CommentService } from 'src/app/core/services/comment.service';
 
-import { AddPostModalComponent } from './add-post-modal/add-post-modal.component';
+import { AddPostModalComponent } from '../../shared/components/add-post-modal/add-post-modal.component';
 import { CommentModalComponent } from './comment-modal/comment-modal.component';
 
 @Component({
@@ -39,7 +39,6 @@ export class HomePage implements OnInit{
   ngOnInit() {
     this.auth.me().subscribe((data) => {
       this.me = data;
-
       // Ahora que tenemos `this.me`, podemos obtener los posts
       if (this.me && this.me.id) {
         this.postService.posts$.subscribe((posts) => {
@@ -67,7 +66,6 @@ export class HomePage implements OnInit{
   
   onCommentPost(comment:Comment){
     this.auth.me().subscribe((data) =>{
-        console.log(comment.text)
         comment.userId = data.id
         this.commentService.addComment(comment).subscribe()  
     })    
@@ -93,7 +91,7 @@ export class HomePage implements OnInit{
     });  
   }
 
-  navigateToPersonaPage() {
+  navigateToPersonalPage() {
     this.router.navigate(['/personal']);
   }
 

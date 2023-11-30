@@ -10,6 +10,10 @@ import { PostExtended } from 'src/app/core/interfaces/post';
 export class PostListComponent  implements OnInit {
 
   @Input() posts: PostExtended[] = [];
+  @Input() showEditDeleteButtons: boolean = false;
+
+  @Output() editPost = new EventEmitter<PostExtended>();
+  @Output() deletePost = new EventEmitter<number>();
   
   @Output() likePost = new EventEmitter<number>();
   @Output() viewComments = new EventEmitter<number>();
@@ -30,5 +34,13 @@ export class PostListComponent  implements OnInit {
   onCommentPost(comment: Comment) {
     console.log("Comentario recibido en PostListComponent:", comment);
     this.commentPost.emit(comment); // paso directamente data
+  }
+
+  onEditPost(post: PostExtended) {
+    this.editPost.emit(post);
+  }
+
+  onDeletePost(postId: number) {
+    this.deletePost.emit(postId);
   }
 }

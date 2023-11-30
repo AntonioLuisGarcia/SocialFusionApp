@@ -10,7 +10,10 @@ import { Comment } from 'src/app/core/interfaces/Comment';
 })
 export class PostItemComponent  implements OnInit {
 
+  //Esto lo uso para dejar el input vacio
   @ViewChild('commentInput') commentInput: ElementRef | undefined;
+
+  @Input() showEditDeleteButtons: boolean = false; 
 
   @Input() post:PostExtended | null = null; //Uso el PostExtended para tener el id y poder usarlo en los eventos
   @Input() user:UserExtended | null = null; //Puedo usar solo user porque el username no se puede repetir, y con eso ya podria buscarlo
@@ -18,7 +21,9 @@ export class PostItemComponent  implements OnInit {
   @Output() onLikePost: EventEmitter<number> = new EventEmitter<number>();
   @Output() onCommentPost: EventEmitter<Comment> = new EventEmitter<Comment>();
   @Output() onViewComments: EventEmitter<number> = new EventEmitter<number>();
-
+  @Output() onEditPost: EventEmitter<PostExtended> = new EventEmitter<PostExtended>();
+  @Output() onDeletePost: EventEmitter<number> = new EventEmitter<number>();
+  
   constructor() { }
 
   ngOnInit() {}
@@ -26,7 +31,7 @@ export class PostItemComponent  implements OnInit {
   //Si pulsan el like lanzamos el evento al padre
   like(event:any){
     if (this.post && this.post.id){
-      this.onLikePost.emit(this.post?.id)
+      this.onLikePost.emit(this.post.id)
     }  
     event.stopPropagation();
   }
@@ -49,7 +54,21 @@ export class PostItemComponent  implements OnInit {
       });
       this.commentInput!.nativeElement.value = '';
     }
-
     event.stopPropagation();
   }
+
+  editPost(event:any) {
+    if(this.post && this.post.id){
+      this.onEditPost.emit(this.post);
+    }
+    event.stopPropagation();
+  }
+
+  deletePost(event:any) {
+    if(this.post && this.post.id){
+      this.onDeletePost.emit(this.post.id);
+    }
+    event.stopPropagation();
+  }
+
 }
