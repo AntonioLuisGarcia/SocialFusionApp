@@ -1,6 +1,12 @@
+/// Angular
 import { Injectable } from '@angular/core';
+
+/// Rxjs
+import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
+
+/// TranslateService
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, Observable, lastValueFrom, tap } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })

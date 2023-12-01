@@ -1,5 +1,10 @@
+/// Angular
 import { Injectable } from '@angular/core';
+
+/// Rxjs
 import { Observable } from 'rxjs';
+
+/// Capacitor
 import { Preferences } from '@capacitor/preferences';
 
 

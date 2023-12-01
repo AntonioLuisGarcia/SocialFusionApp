@@ -1,4 +1,7 @@
+/// Angular
 import { Component, Input, OnInit, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
+
+/// Interfaces
 import { UserExtended } from 'src/app/core/interfaces/User';
 import { PostExtended } from 'src/app/core/interfaces/post';
 import { Comment } from 'src/app/core/interfaces/Comment';

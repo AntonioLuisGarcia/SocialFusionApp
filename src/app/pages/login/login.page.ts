@@ -1,8 +1,12 @@
+/// Angular
 import { Component, OnInit } from '@angular/core';
+
+/// Service
+import { AuthService } from 'src/app/core/services/auth.service';
+
+/// Interfaces
 import { UserCredentials } from 'src/app/core/interfaces/UserCredentials';
 import { UserRegister } from 'src/app/core/interfaces/UserRegister';
-import { AuthStrapiService } from 'src/app/core/services/auth-strapi.service';
-import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-login',

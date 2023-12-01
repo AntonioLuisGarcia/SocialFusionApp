@@ -1,6 +1,9 @@
+/// Angular
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+
+/// Interfaces
 import { PostExtended } from 'src/app/core/interfaces/post';
 
 @Component({

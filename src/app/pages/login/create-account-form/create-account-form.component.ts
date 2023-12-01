@@ -1,6 +1,11 @@
+/// Angular
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+/// Interfaces
 import { UserRegister } from 'src/app/core/interfaces/UserRegister';
+
+/// Validators
 import { PasswordValidation } from 'src/app/core/validators/password';
 import { usernameValidators } from 'src/app/core/validators/username';
 

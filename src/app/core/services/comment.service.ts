@@ -1,7 +1,14 @@
+/// Angular
 import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
+
+/// Rxjs
 import { Observable, map} from 'rxjs';
-import { Comment, CommentExtended, CommentWithUserName } from '../interfaces/Comment';
+
+///Service
+import { ApiService } from './api.service';
+
+/// Interface
+import { Comment, CommentWithUserName } from '../interfaces/Comment';
 
 
 

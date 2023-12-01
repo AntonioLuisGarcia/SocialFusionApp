@@ -1,3 +1,4 @@
+/// Angular
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
@@ -9,15 +10,11 @@ import { ModalController } from '@ionic/angular';
 export class CommentModalComponent  implements OnInit {
 
   @Input() postId: number | undefined;
-  @Input() comments: any[] | undefined; // Asegúrate de tener la interfaz adecuada para los comentarios
-
-  // No necesitas inyectar CommentService aquí ya que los comentarios son pasados directamente
+  @Input() comments: any[] | undefined;
 
   constructor(private modalController: ModalController) {}
 
-  ngOnInit() {
-    // Los comentarios ya están disponibles en this.comments
-  }
+  ngOnInit() {}
 
   async closeModal() {
     await this.modalController.dismiss();

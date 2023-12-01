@@ -1,10 +1,15 @@
-import { BehaviorSubject, Observable, lastValueFrom, map, tap } from 'rxjs';
+/// Rxjs
+import { Observable, lastValueFrom, map } from 'rxjs';
+
+/// Service
 import { AuthService } from './auth.service';
-import { UserCredentials } from '../interfaces/UserCredentials';
-import { UserRegister } from '../interfaces/UserRegister';
 import { JwtService } from './jwt.service';
 import { ApiService } from './api.service';
-import { StrapiExtendedUser, StrapiLoginPayload, StrapiLoginResponse, StrapiRegisterPayload, StrapiRegisterResponse, StrapiUser } from '../interfaces/strapi';
+
+/// Interfaces
+import { StrapiLoginPayload, StrapiLoginResponse, StrapiRegisterPayload, StrapiRegisterResponse } from '../interfaces/strapi';
+import { UserCredentials } from '../interfaces/UserCredentials';
+import { UserRegister } from '../interfaces/UserRegister';
 import { UserExtended } from '../interfaces/User';
 
 

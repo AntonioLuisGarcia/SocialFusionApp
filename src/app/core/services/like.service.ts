@@ -1,6 +1,13 @@
+/// Angular
 import { Injectable } from "@angular/core";
-import { ApiService } from "./api.service";
+
+/// Rxjs
 import { BehaviorSubject, Observable, map, switchMap } from "rxjs";
+
+/// Service
+import { ApiService } from "./api.service";
+
+/// Interfaces
 import { Like } from "../interfaces/like";
 
 @Injectable({

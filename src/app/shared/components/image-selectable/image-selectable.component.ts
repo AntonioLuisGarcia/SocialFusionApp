@@ -1,6 +1,9 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild, forwardRef } from '@angular/core';
+/// Angular
+import { Component, OnDestroy, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+
+/// Rxjs
 import { BehaviorSubject } from 'rxjs';
 
 export const PICTURE_SELECTABLE_VALUE_ACCESSOR: any = {
@@ -82,7 +85,6 @@ export class ImageSelectableComponent  implements OnInit, ControlValueAccessor, 
   }
 
   close(){
-
     this.pictureModal?.dismiss();
   }
 

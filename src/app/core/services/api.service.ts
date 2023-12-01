@@ -1,8 +1,16 @@
+/// Angular
 import { Injectable } from '@angular/core';
+
+/// Rxjs
 import { Observable } from 'rxjs';
 
+/// Provider
 import { HttpClientProvider } from './http-client.provider';
+
+/// Service
 import { JwtService } from './jwt.service';
+
+/// Environment
 import { environment } from 'src/environments/environment';
 
 @Injectable({

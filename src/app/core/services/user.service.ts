@@ -1,7 +1,14 @@
+/// Angular
 import { Injectable } from '@angular/core';
+
+/// Rxjs
 import { BehaviorSubject, Observable } from 'rxjs';
-import { UserExtended } from '../interfaces/User';
+
+/// Service
 import { ApiService } from './api.service';
+
+/// Interfaces
+import { UserExtended } from '../interfaces/User';
 
 @Injectable({
   providedIn: 'root'

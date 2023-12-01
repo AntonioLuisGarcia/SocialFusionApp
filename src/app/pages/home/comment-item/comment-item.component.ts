@@ -1,5 +1,8 @@
+/// Angular
 import { Component, OnInit, Input } from '@angular/core';
-import { Comment, CommentWithUserName } from 'src/app/core/interfaces/Comment';
+
+/// Interfaces
+import { CommentWithUserName } from 'src/app/core/interfaces/Comment';
 
 @Component({
   selector: 'app-comment-item',
@@ -7,7 +10,7 @@ import { Comment, CommentWithUserName } from 'src/app/core/interfaces/Comment';
   styleUrls: ['./comment-item.component.scss'],
 })
 export class CommentItemComponent implements OnInit {
-  @Input() comment: CommentWithUserName | undefined // Asegúrate de definir una interfaz adecuada para esto
+  @Input() comment: CommentWithUserName | undefined
 
   constructor() { }
 

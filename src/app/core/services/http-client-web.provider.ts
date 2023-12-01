@@ -1,8 +1,11 @@
+/// Angular
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
+/// Rxjs
 import { Observable } from 'rxjs';
 
+/// Provider
 import { HttpClientProvider } from './http-client.provider';
 
 @Injectable({

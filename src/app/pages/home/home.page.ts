@@ -1,16 +1,20 @@
+/// Angular
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 
-import { Post, PostExtended } from 'src/app/core/interfaces/post';
-import { UserExtended } from 'src/app/core/interfaces/User';
-import { Comment } from 'src/app/core/interfaces/Comment';
-
+/// Services
 import { AuthService } from 'src/app/core/services/auth.service';
 import { PostService } from 'src/app/core/services/post.service';
 import { LikeService } from 'src/app/core/services/like.service';
 import { CommentService } from 'src/app/core/services/comment.service';
 
+/// Interfaces
+import { Post, PostExtended } from 'src/app/core/interfaces/post';
+import { UserExtended } from 'src/app/core/interfaces/User';
+import { Comment } from 'src/app/core/interfaces/Comment';
+
+/// Modals
 import { AddPostModalComponent } from '../../shared/components/add-post-modal/add-post-modal.component';
 import { CommentModalComponent } from './comment-modal/comment-modal.component';
 

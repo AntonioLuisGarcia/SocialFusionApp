@@ -1,4 +1,7 @@
+/// Angular
 import { Component, Input, OnInit } from '@angular/core';
+
+/// Interfaces
 import { UserExtended } from 'src/app/core/interfaces/User';
 
 @Component({

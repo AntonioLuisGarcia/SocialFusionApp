@@ -1,8 +1,14 @@
+/// Angular
 import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
+
+/// Rxjs
 import { BehaviorSubject, Observable, concatMap, map, of} from 'rxjs';
+
+/// Services
+import { ApiService } from './api.service';
+
+/// Interfaces
 import { Post, PostExtended } from '../interfaces/post';
-import { LikeService } from './like.service';
 
 @Injectable({
   providedIn: 'root'
