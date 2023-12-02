@@ -10,7 +10,7 @@ import { ApiService } from './api.service';
 import { StrapiLoginPayload, StrapiLoginResponse, StrapiRegisterPayload, StrapiRegisterResponse } from '../interfaces/strapi';
 import { UserCredentials } from '../interfaces/UserCredentials';
 import { UserRegister } from '../interfaces/UserRegister';
-import { UserExtended } from '../interfaces/User';
+import { User, UserExtended } from '../interfaces/User';
 
 
 export class AuthStrapiService extends AuthService{
@@ -34,6 +34,18 @@ export class AuthStrapiService extends AuthService{
         }
       }      
     );
+  }
+
+  searchUser(username: string): Observable<User>{
+    return this.apiSvc.get(`/users?filters[username][$contains]=${username}`).pipe(
+      map(response => {
+        return{
+          id: response.id,
+          username: response.username,
+          name: response.name
+        } 
+      })
+    )
   }
 
   public login(credentials:UserCredentials):Observable<void>{

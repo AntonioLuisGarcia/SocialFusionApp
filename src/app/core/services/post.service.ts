@@ -89,11 +89,17 @@ export class PostService {
   public getPostsByUserId(userId: number): Observable<PostExtended[]> {
     return this.api.get(`/posts?populate=*&filters[user]=${userId}`).pipe(
       map(response => response.data.map((item: any) => {
+
+        const hasImage = item.attributes.image?.data 
+                          && item.attributes.image.data.attributes.formats 
+                          && item.attributes.image.data.attributes.formats.medium;
+        const imgURL = hasImage ? item.attributes.image.data.attributes.formats.medium.url : null;
+
         return {
           id: item.id,
           userId: item.attributes.user.data.id,
           description: item.attributes.description,
-          img: item.attributes.image.data ? item.attributes.image.data.attributes.formats.medium.url : null,
+          img: imgURL,
           date: item.attributes.createdAt
         }
       }))
@@ -116,6 +122,7 @@ export class PostService {
   }
 
   public postPost(post:Post):Observable<PostExtended>{ //mirar si devuelve post o postextended
+    console.log(post.img)
     const body = {
       data: { 
         description: post.description,
@@ -185,10 +192,17 @@ export class PostService {
 
   getPostsForUser(userId: number): Observable<PostExtended[]> {
     // Asumiendo que la URL obtiene posts con la información de likes y usuarios incluida
-    const url = `/posts?populate=user,likes.user`;
+    const url = `/posts?populate[0]=user&populate[1]=likes.user&populate[2]=image`;
 
     return this.api.get(url).pipe(
       map(response => response.data.map((item: any) => {
+
+        const hasImage = item.attributes.image?.data 
+                          && item.attributes.image.data.attributes.formats 
+                          && item.attributes.image.data.attributes.formats.medium;
+        const imgURL = hasImage ? item.attributes.image.data.attributes.formats.medium.url : null;
+
+
         // Verifica si el usuario actual ha dado "me gusta" al post
         const likedByUser = item.attributes.likes.data.some((like: any) => 
           like.attributes.user.data.id === userId && like.attributes.like);
@@ -196,7 +210,7 @@ export class PostService {
         return {
           id: item.id,
           description: item.attributes.description,
-          img: item.attributes.image?.data?.attributes.url,
+          img: imgURL,
           date: item.attributes.createdAt,
           user: {
             id: item.attributes.user.data.id,

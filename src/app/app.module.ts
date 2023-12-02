@@ -16,6 +16,8 @@ import { JwtService } from './core/services/jwt.service';
 import { HttpClientWebProvider } from './core/services/http-client-web.provider';
 import { AuthService } from './core/services/auth.service';
 import { HttpClientProvider } from './core/services/http-client.provider';
+import { MediaStrapiService } from './core/services/media-strapi.service';
+import { MediaService } from './core/services/media.service';
 
 export function httpProviderFactory(
   http:HttpClient,
@@ -28,6 +30,17 @@ export function AuthServiceFactory(
   api:ApiService
 ) {
   return new AuthStrapiService(jwt, api);
+}
+
+export function MediaServiceFactory(
+  backend:string,
+  api:ApiService){
+    switch(backend){
+      case 'Strapi':
+        return new MediaStrapiService(api);
+      default:
+        throw new Error("Not implemented");
+    }
 }
 
 @NgModule({
@@ -48,6 +61,10 @@ export function AuthServiceFactory(
       }),
   ],
   providers: [
+    {
+      provide: 'backend',
+      useValue:'Strapi'
+    },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HttpClientProvider,
@@ -58,7 +75,11 @@ export function AuthServiceFactory(
       provide: AuthService,
       deps: [JwtService, ApiService],
       useFactory: AuthServiceFactory,  
-    },
+    },    {
+      provide: MediaService,
+      deps: ['backend', ApiService],
+      useFactory: MediaServiceFactory,  
+    }
   ],
   bootstrap: [AppComponent],
 })

@@ -8,15 +8,19 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { PostService } from 'src/app/core/services/post.service';
 import { LikeService } from 'src/app/core/services/like.service';
 import { CommentService } from 'src/app/core/services/comment.service';
+import { MediaService } from 'src/app/core/services/media.service';
 
 /// Interfaces
-import { Post, PostExtended } from 'src/app/core/interfaces/post';
+import { PostExtended } from 'src/app/core/interfaces/post';
 import { UserExtended } from 'src/app/core/interfaces/User';
 import { Comment } from 'src/app/core/interfaces/Comment';
 
 /// Modals
 import { AddPostModalComponent } from '../../shared/components/add-post-modal/add-post-modal.component';
 import { CommentModalComponent } from './comment-modal/comment-modal.component';
+
+/// Helpers
+import { dataURLtoBlob } from 'src/app/core/helpers/blob';
 
 @Component({
   selector: 'app-home',
@@ -32,6 +36,7 @@ export class HomePage implements OnInit{
     private postService:PostService,
     private likeService:LikeService,
     private commentService:CommentService,
+    private mediaService: MediaService,
     public modalController: ModalController,
 
     ) {}
@@ -99,27 +104,31 @@ export class HomePage implements OnInit{
     this.router.navigate(['/personal']);
   }
 
+  navigateToSearchPage() {
+    this.router.navigate(['/search']);
+  }
+
   async presentAddPostModal() {
     const modal = await this.modalController.create({
       component: AddPostModalComponent
     });
-  
     await modal.present();
-  
     const { data } = await modal.onDidDismiss();
     if (data && data.status === 'ok') {
-      // Obtener detalles del usuario
+      dataURLtoBlob(data.photo, (blob:Blob)=>{
+        this.mediaService.upload(blob).subscribe((media:number[])=>{
+                // Obtener detalles del usuario
       this.auth.me().subscribe(
         user => {
-        const newPost: Post = {
-          img: data.post.img ? data.post.img : null, // verificar esto
-          description: data.post.description,
-          userId: user.id
-        };
-  
-        // Hacemos el post de la nueva publicación
+          const imageUrl = media.length > 0 ? media[0] : null;
+          console.log(imageUrl)
+          const newPost: any = {
+            img: imageUrl,
+            description: data.post.description,
+            userId: user.id
+          };
         this.postService.postPost(newPost).subscribe({
-          next: (response) => {
+          next: () => {
             this.postService.fetchAndEmitPosts(this.me.id);
           },
           error: (error) => {
@@ -127,6 +136,8 @@ export class HomePage implements OnInit{
           }
         });
       });
+        })
+      })
     }
   }
 

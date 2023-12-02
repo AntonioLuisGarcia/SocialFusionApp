@@ -20,4 +20,6 @@ export abstract class AuthService {
   public abstract logout():Observable<void>;
 
   public abstract me():Observable<any>;
+
+  public abstract searchUser(name: string): Observable<any>;
 }

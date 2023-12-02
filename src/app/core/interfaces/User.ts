@@ -8,6 +8,12 @@ export interface UserExtended{
     img?:string,
 }
 
+export interface User{
+    id:number,
+    username: string,
+    name: string
+}
+
 export interface UserBasicInfo{
     username:string,
     img?:string,
