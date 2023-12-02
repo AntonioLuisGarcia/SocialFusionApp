@@ -115,7 +115,7 @@ export class HomePage implements OnInit{
     await modal.present();
     const { data } = await modal.onDidDismiss();
     if (data && data.status === 'ok') {
-      dataURLtoBlob(data.photo, (blob:Blob)=>{
+      dataURLtoBlob(data.post.image, (blob:Blob)=>{
         this.mediaService.upload(blob).subscribe((media:number[])=>{
                 // Obtener detalles del usuario
       this.auth.me().subscribe(
