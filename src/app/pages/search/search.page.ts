@@ -33,7 +33,6 @@ export class SearchPage implements OnInit {
 
   searchUsers(query: string) {
     if(query) {
-
       this.authService.searchUser(query).subscribe(results => {
         this.filteredUsers = results;
       });

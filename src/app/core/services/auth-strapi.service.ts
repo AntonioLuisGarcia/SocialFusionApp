@@ -36,17 +36,17 @@ export class AuthStrapiService extends AuthService{
     );
   }
 
-  searchUser(username: string): Observable<User>{
+  searchUser(username: string): Observable<User[]> {
     return this.apiSvc.get(`/users?filters[username][$contains]=${username}`).pipe(
-      map(response => {
-        return{
-          id: response.id,
-          username: response.username,
-          name: response.name
-        } 
-      })
-    )
+      map(response => response.map(((user:User) => ({
+        id: user.id,
+        username: user.username,
+        name: user.name
+        // Añade aquí cualquier otra propiedad que necesites
+      })))
+    ));
   }
+  
 
   public login(credentials:UserCredentials):Observable<void>{
     return new Observable<void>(obs=>{
