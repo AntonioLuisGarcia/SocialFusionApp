@@ -2,7 +2,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 /// Interfaces
-import { UserExtended } from 'src/app/core/interfaces/User';
+import { UserBasicInfo } from 'src/app/core/interfaces/User';
 
 @Component({
   selector: 'app-user-info',
@@ -11,7 +11,7 @@ import { UserExtended } from 'src/app/core/interfaces/User';
 })
 export class UserInfoComponent  implements OnInit {
 
-  @Input() user: UserExtended | undefined;
+  @Input() user: any | undefined;
 
   constructor() { }
 

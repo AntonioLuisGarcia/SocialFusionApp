@@ -122,7 +122,10 @@ export class AuthStrapiService extends AuthService{
     return new Observable<UserExtended>(obs=>{
       this.apiSvc.get('/users/me?populate=*').subscribe({
         next:async (user:any)=>{
-          let extended_user = await lastValueFrom(this.apiSvc.get(`/users?filters[id]=${user.id}`));
+          //let extended_user = await lastValueFrom(this.apiSvc.get(`/users?filters[id]=${user.id}`));
+
+          const imageUrl = user.image ? user.image.url : null;
+
           let ret:UserExtended = {
             id:user.id,
             name:user.name,
@@ -130,7 +133,7 @@ export class AuthStrapiService extends AuthService{
             email:user.email,
             password:user.password,
             description:user.description,
-            img:user.img,
+            img: imageUrl
           }
           obs.next(ret);
           obs.complete();
@@ -144,6 +147,6 @@ export class AuthStrapiService extends AuthService{
 
   public updateUser(id: number, userData:UserBasicInfo): Observable<UserBasicInfo> {
     return this.apiSvc.put(`/users/${id}`, userData);
-}
+  }
 
 }
