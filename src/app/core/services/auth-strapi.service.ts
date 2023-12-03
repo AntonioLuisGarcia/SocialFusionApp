@@ -10,7 +10,7 @@ import { ApiService } from './api.service';
 import { StrapiLoginPayload, StrapiLoginResponse, StrapiRegisterPayload, StrapiRegisterResponse } from '../interfaces/strapi';
 import { UserCredentials } from '../interfaces/UserCredentials';
 import { UserRegister } from '../interfaces/UserRegister';
-import { User, UserExtended } from '../interfaces/User';
+import { User, UserBasicInfo, UserExtended } from '../interfaces/User';
 
 
 export class AuthStrapiService extends AuthService{
@@ -139,7 +139,11 @@ export class AuthStrapiService extends AuthService{
           obs.error(err);
         }
       });
-    });
-    
+    }); 
   }
+
+  public updateUser(id: number, userData:UserBasicInfo): Observable<UserBasicInfo> {
+    return this.apiSvc.put(`/users/${id}`, userData);
+}
+
 }

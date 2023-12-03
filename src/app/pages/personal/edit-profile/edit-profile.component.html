@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Editar Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="profileForm">
+    <ion-item>
+      <ion-label position="floating">Nombre de Usuario</ion-label>
+      <ion-input formControlName="username"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input formControlName="name"></ion-input>
+    </ion-item>
+
+    <app-image-selectable
+    formControlName="img"
+    [img]="profileForm.controls['img'].value"
+    ></app-image-selectable>
+  </form>
+  <ion-button expand="block" (click)="saveProfile()">Guardar</ion-button>
+  <ion-button expand="block" (click)="dismissModal()">Cancelar</ion-button>
+</ion-content>

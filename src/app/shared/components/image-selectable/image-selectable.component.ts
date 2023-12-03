@@ -1,5 +1,5 @@
 /// Angular
-import { Component, OnDestroy, OnInit, forwardRef } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 
@@ -37,10 +37,28 @@ export class ImageSelectableComponent  implements OnInit, ControlValueAccessor, 
   propagateChange = (obj: any) => {
   }
 
+  /*
   writeValue(obj: any): void {
     if(obj){
       this.hasValue = true;
       this._picture.next(obj);
+    }
+  }
+  */
+ 
+    @Input() set img(val: string) {
+      this.writeValue(val);
+    }
+
+  // Tu función writeValue actual
+  writeValue(obj: any): void {
+    if (obj) {
+      this.hasValue = true;
+      this._picture.next(obj);
+      this.propagateChange(obj); // Asegúrate de notificar el cambio
+    } else {
+      this.hasValue = false; // Añade esta línea para manejar el caso en que no hay imagen
+      this._picture.next('');
     }
   }
 

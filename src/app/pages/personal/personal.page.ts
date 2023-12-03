@@ -18,6 +18,9 @@ import { CommentModalComponent } from '../home/comment-modal/comment-modal.compo
 import { AddPostModalComponent } from 'src/app/shared/components/add-post-modal/add-post-modal.component';
 import { ConfirmDeleteAccountComponent } from './confirm-delete-account/confirm-delete-account.component';
 import { Router } from '@angular/router';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { dataURLtoBlob } from 'src/app/core/helpers/blob';
+import { MediaService } from 'src/app/core/services/media.service';
 
 @Component({
   selector: 'app-personal',
@@ -33,6 +36,7 @@ export class PersonalPage implements OnInit {
     private authService:AuthService,
     private postService:PostService,
     private likeService:LikeService,
+    private mediaService: MediaService,
     private commentService:CommentService,
     private modalController:ModalController,
     private router:Router,
@@ -118,10 +122,118 @@ export class PersonalPage implements OnInit {
       );
     }
   }
-
+  
+  /*
   async editProfile(){
-
+    const modal = await this.modalController.create({
+      component: EditProfileComponent,
+      componentProps: {
+        user: this.actualUser
+      }
+    });
+  
+    console.log(this.actualUser)
+    await modal.present();
+  
+    const { data } = await modal.onDidDismiss();
+    if (data && data.status === 'ok') {
+      // Aquí manejas la lógica para actualizar el perfil del usuario
+      console.log('Datos actualizados del perfil:', data.user);
+      dataURLtoBlob(data.user.img, (blob:Blob)=>{
+        this.mediaService.upload(blob).subscribe((media:number[])=>{
+                // Obtener detalles del usuario
+      this.authService.me().subscribe(
+        user => {
+          const imageUrl = media.length > 0 ? media[0] : null;
+          console.log(imageUrl)
+          const userInfo: any = {
+            img: imageUrl,
+            name: data.user.name,
+            username: data.user.username
+          };
+        this.authService.updateUser(user.id, userInfo).subscribe({
+          next: () => {
+            //this.postService.fetchAndEmitPosts(this.me.id);
+          },
+          error: (error) => {
+            console.error('Error al crear el post', error);
+          }
+        });
+      });
+        })
+      })
+    }
   }
+*/
+
+async editProfile() {
+  const modal = await this.modalController.create({
+    component: EditProfileComponent,
+    componentProps: {
+      user: this.actualUser
+    }
+  });
+
+  console.log(this.actualUser);
+
+  await modal.present();
+
+  const { data } = await modal.onDidDismiss();
+  if (data && data.status === 'ok') {
+    console.log('Datos actualizados del perfil:', data.user);
+
+    // Verifica si hay una imagen nueva o si la imagen se ha eliminado
+    if (data.user.img && data.user.img !== this.actualUser.img) {
+      // Si hay una imagen nueva y es diferente a la actual
+      dataURLtoBlob(data.user.img, (blob: Blob) => {
+        this.mediaService.upload(blob).subscribe((media: number[]) => {
+          // Obtener detalles del usuario
+          this.authService.me().subscribe(user => {
+            const imageUrl = media.length > 0 ? media[0] : null;
+            console.log('Nueva URL de imagen:', imageUrl);
+            const userInfo: any = {
+              image: imageUrl,
+              name: data.user.name,
+              username: data.user.username
+            };
+            // Actualiza la información del usuario con la nueva imagen
+            this.updateUserProfile(user.id, userInfo);
+          });
+        });
+      });
+    } else if (!data.user.img) {
+      // Si la imagen ha sido eliminada
+      const userInfo: any = {
+        image: null, // Establece la imagen en null para eliminarla
+        name: data.user.name,
+        username: data.user.username
+      };
+      // Actualiza la información del usuario sin la imagen
+      this.updateUserProfile(this.actualUser.id, userInfo);
+    } else {
+      // Si la imagen no ha cambiado
+      const userInfo: any = {
+        name: data.user.name,
+        username: data.user.username
+      };
+      // Actualiza solo el nombre y el nombre de usuario
+      this.updateUserProfile(this.actualUser.id, userInfo);
+    }
+  }
+}
+
+updateUserProfile(userId: number, userInfo: any) {
+  this.authService.updateUser(userId, userInfo).subscribe({
+    next: () => {
+      // Manejo adecuado tras la actualización exitosa
+      console.log('Perfil actualizado correctamente.');
+    },
+    error: (error) => {
+      console.error('Error al actualizar el perfil', error);
+    }
+  });
+}
+
 
   async deleteAccount(){
     const modal = await this.modalController.create({
@@ -150,5 +262,6 @@ export class PersonalPage implements OnInit {
       console.log("No")
     }
   }
+
 
 }

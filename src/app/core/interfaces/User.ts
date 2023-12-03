@@ -16,5 +16,6 @@ export interface User{
 
 export interface UserBasicInfo{
     username:string,
-    img?:string,
+    name: string,
+    image?:string,
 }
