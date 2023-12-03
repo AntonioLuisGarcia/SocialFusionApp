@@ -1,5 +1,5 @@
 /// Rxjs
-import { Observable, lastValueFrom, map } from 'rxjs';
+import { Observable, lastValueFrom, map, tap } from 'rxjs';
 
 /// Service
 import { AuthService } from './auth.service';
@@ -36,7 +36,7 @@ export class AuthStrapiService extends AuthService{
     );
   }
 
-  searchUser(username: string): Observable<User[]> {
+  public searchUser(username: string): Observable<User[]> {
     return this.apiSvc.get(`/users?filters[username][$contains]=${username}`).pipe(
       map(response => response.map(((user:User) => ({
         id: user.id,
@@ -47,6 +47,19 @@ export class AuthStrapiService extends AuthService{
     ));
   }
   
+  public override deleteUser(id: number): Observable<any> {
+    return this.apiSvc.delete(`/users/${id}`).pipe(
+      tap({
+        next: (response) => {
+          console.log('Usuario eliminado con éxito', response);
+          // Aquí puedes añadir más lógica si necesitas hacer algo justo después de eliminar el usuario
+        },
+        error: (error) => {
+          console.error('Error al eliminar el usuario', error);
+        }
+      })
+    );
+  }
 
   public login(credentials:UserCredentials):Observable<void>{
     return new Observable<void>(obs=>{

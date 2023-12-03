@@ -16,6 +16,8 @@ import { UserExtended } from 'src/app/core/interfaces/User';
 /// Modal
 import { CommentModalComponent } from '../home/comment-modal/comment-modal.component';
 import { AddPostModalComponent } from 'src/app/shared/components/add-post-modal/add-post-modal.component';
+import { ConfirmDeleteAccountComponent } from './confirm-delete-account/confirm-delete-account.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-personal',
@@ -33,6 +35,7 @@ export class PersonalPage implements OnInit {
     private likeService:LikeService,
     private commentService:CommentService,
     private modalController:ModalController,
+    private router:Router,
   ) { }
 
   ngOnInit() {
@@ -106,15 +109,45 @@ export class PersonalPage implements OnInit {
         existingPost: post
       }
     });
-  
-    await modal.present();
-  
+    await modal.present();  
     const { data } = await modal.onDidDismiss();
     if (data && data.status === 'ok') {
       console.log(data);
       this.postService.updatePost(data.post).subscribe( ()=>
         this.loadPosts()
       );
+    }
+  }
+
+  async editProfile(){
+
+  }
+
+  async deleteAccount(){
+    const modal = await this.modalController.create({
+      component: ConfirmDeleteAccountComponent
+    });
+  
+    await modal.present();
+  
+    const { data } = await modal.onWillDismiss();
+    if (data && data.confirm) {
+
+      this.authService.me().subscribe( data =>{
+        this.authService.deleteUser(data.id).subscribe({
+          next: (response) => {
+            console.log('Cuenta eliminada correctamente.');
+            this.router.navigate(['/login'])
+          },
+          error: (error) => {
+            // Manejo de errores
+            console.error('error al eliminar la cuenta', error);
+          }
+        });
+      })
+      
+    }else{
+      console.log("No")
     }
   }
 
