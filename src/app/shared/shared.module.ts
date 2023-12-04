@@ -11,6 +11,7 @@ import { FormatDatePipe } from './pipe/format-date.pipe';
 import { ImageSelectableComponent } from './components/image-selectable/image-selectable.component';
 import { PostItemComponent } from './components/post-item/post-item.component';
 import { PostListComponent } from './components/post-list/post-list.component';
+import { UserInfoComponent } from './components/user-info/user-info.component';
 
 
 
@@ -20,6 +21,7 @@ import { PostListComponent } from './components/post-list/post-list.component';
     PostItemComponent,
     PostListComponent,
     ImageSelectableComponent,
+    UserInfoComponent,
     FormatDatePipe,
   ],
   imports: [
@@ -47,6 +49,7 @@ import { PostListComponent } from './components/post-list/post-list.component';
     ImageSelectableComponent,
     PostItemComponent,
     PostListComponent,
+    UserInfoComponent,
     FormatDatePipe,
   ]
 })

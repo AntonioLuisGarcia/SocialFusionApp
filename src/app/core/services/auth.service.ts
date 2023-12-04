@@ -26,4 +26,6 @@ export abstract class AuthService {
   public abstract deleteUser(id: number): Observable<any>;
 
   public abstract updateUser(id:number, userData:Object): Observable<any>;
+
+  public abstract getUser(id:number): Observable<any>;
 }

@@ -1,6 +1,7 @@
 /// Angular
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { NavigationExtras, Router } from '@angular/router';
 
 /// Rxjs
 import { debounceTime } from 'rxjs';
@@ -20,6 +21,7 @@ export class SearchPage implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -30,7 +32,6 @@ export class SearchPage implements OnInit {
       });
   }
   
-
   searchUsers(query: string) {
     if(query) {
       this.authService.searchUser(query).subscribe(results => {
@@ -39,5 +40,17 @@ export class SearchPage implements OnInit {
     }
   }
   
+  userClicked(userId: number) {
+    console.log(`User with ID ${userId} was clicked.`);
+    this.authService.getUser(userId).subscribe( data =>{
+      console.log(data)
+      let navigationExtras: NavigationExtras = {
+        state: {
+          user: data
+        }
+      };
+      this.router.navigate(['user-details'], navigationExtras);
+    })
+  }
 
 }

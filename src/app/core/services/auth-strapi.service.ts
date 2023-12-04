@@ -42,7 +42,6 @@ export class AuthStrapiService extends AuthService{
         id: user.id,
         username: user.username,
         name: user.name
-        // Añade aquí cualquier otra propiedad que necesites
       })))
     ));
   }
@@ -143,6 +142,22 @@ export class AuthStrapiService extends AuthService{
         }
       });
     }); 
+  }
+
+  public getUser(id: number): Observable<UserExtended> {
+    return this.apiSvc.get(`/users/${id}?populate=*`).pipe(
+      map(user => {
+        const imageUrl = user.image ? user.image.url : null;
+        return {
+          id: user.id,
+          name: user.name,
+          username: user.username,
+          email: user.email,
+          description: user.description,
+          img: imageUrl
+        };
+      })
+    );
   }
 
   public updateUser(id: number, userData:UserBasicInfo): Observable<UserBasicInfo> {
