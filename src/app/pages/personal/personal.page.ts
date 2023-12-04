@@ -45,7 +45,7 @@ export class PersonalPage implements OnInit {
   ngOnInit() {
     this.authService.me().subscribe( data => {
       this.actualUser = data
-      this.postService.getPostsByUserId(data.id).subscribe(data =>{
+      this.postService.getPostsByUserId(data.id, data.id).subscribe(data =>{
         this.userPosts = data
       })
     })
@@ -100,7 +100,7 @@ export class PersonalPage implements OnInit {
 
   loadPosts(){
     this.authService.me().subscribe( data => {
-      this.postService.getPostsByUserId(data.id).subscribe(data =>{
+      this.postService.getPostsByUserId(data.id, data.id).subscribe(data =>{
         this.userPosts = data
       })
     })

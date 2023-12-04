@@ -86,22 +86,31 @@ export class PostService {
     );
   }
 
-  public getPostsByUserId(userId: number): Observable<PostExtended[]> {
-    return this.api.get(`/posts?populate=*&filters[user]=${userId}`).pipe(
+  public getPostsByUserId(actualUserId: number, filterUserId: number): Observable<PostExtended[]> {
+    return this.api.get(`/posts?populate[0]=user&populate[1]=likes.user&populate[2]=image&filters[user]=${filterUserId}`).pipe(
       map(response => response.data.map((item: any) => {
-
+  
         const hasImage = item.attributes.image?.data 
                           && item.attributes.image.data.attributes.formats 
                           && item.attributes.image.data.attributes.formats.medium;
         const imgURL = hasImage ? item.attributes.image.data.attributes.formats.medium.url : null;
-
+  
+        // Verifica si el usuario actual (actualUserId) ha dado "me gusta" al post
+        const likedByUser = item.attributes.likes.data.some((like: any) => 
+          like.attributes.user.data.id === actualUserId && like.attributes.like);
+  
         return {
           id: item.id,
-          userId: item.attributes.user.data.id,
           description: item.attributes.description,
           img: imgURL,
-          date: item.attributes.createdAt
-        }
+          date: item.attributes.createdAt,
+          user: {
+            id: item.attributes.user.data.id,
+            username: item.attributes.user.data.attributes.username,
+            name: item.attributes.user.data.attributes.name
+          },
+          likedByUser: likedByUser // Esto será true si el usuario actual ha dado "me gusta" al post
+        };
       }))
     );
   }
@@ -191,7 +200,6 @@ export class PostService {
   }*/
 
   getPostsForUser(userId: number): Observable<PostExtended[]> {
-    // Asumiendo que la URL obtiene posts con la información de likes y usuarios incluida
     const url = `/posts?populate[0]=user&populate[1]=likes.user&populate[2]=image`;
 
     return this.api.get(url).pipe(
