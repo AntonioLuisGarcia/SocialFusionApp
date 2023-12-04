@@ -6,8 +6,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { PostItemComponent } from '../../shared/components/post-item/post-item.component';
 import { PostListComponent } from '../../shared/components/post-list/post-list.component';
 import { AddPostModalComponent } from '../../shared/components/add-post-modal/add-post-modal.component';
-import { CommentItemComponent } from './comment-item/comment-item.component';
-import { CommentModalComponent } from './comment-modal/comment-modal.component';
+import { CommentItemComponent } from '../../shared/components/comment-item/comment-item.component';
+import { CommentModalComponent } from '../../shared/components/comment-modal/comment-modal.component';
 
 
 @NgModule({
@@ -18,8 +18,6 @@ import { CommentModalComponent } from './comment-modal/comment-modal.component';
   declarations: [
     HomePage,
     AddPostModalComponent,
-    CommentItemComponent,
-    CommentModalComponent
   ],
   exports:[
     HomePage,

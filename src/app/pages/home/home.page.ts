@@ -17,7 +17,7 @@ import { Comment } from 'src/app/core/interfaces/Comment';
 
 /// Modals
 import { AddPostModalComponent } from '../../shared/components/add-post-modal/add-post-modal.component';
-import { CommentModalComponent } from './comment-modal/comment-modal.component';
+import { CommentModalComponent } from '../../shared/components/comment-modal/comment-modal.component';
 
 /// Helpers
 import { dataURLtoBlob } from 'src/app/core/helpers/blob';

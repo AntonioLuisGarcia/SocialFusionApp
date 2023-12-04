@@ -14,7 +14,7 @@ import { PostExtended } from 'src/app/core/interfaces/post';
 import { UserExtended } from 'src/app/core/interfaces/User';
 
 /// Modal
-import { CommentModalComponent } from '../home/comment-modal/comment-modal.component';
+import { CommentModalComponent } from '../../shared/components/comment-modal/comment-modal.component';
 import { AddPostModalComponent } from 'src/app/shared/components/add-post-modal/add-post-modal.component';
 import { ConfirmDeleteAccountComponent } from './confirm-delete-account/confirm-delete-account.component';
 import { Router } from '@angular/router';

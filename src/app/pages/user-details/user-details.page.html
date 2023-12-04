@@ -11,5 +11,10 @@
     </ion-toolbar>
   </ion-header>
   <app-user-info [user]="user"></app-user-info>
-  <app-post-list [posts]="posts" ></app-post-list>
+  <app-post-list 
+  [posts]="posts"
+  (likePost)="onLikePost($event)"
+  (commentPost)="onCommentPost($event)"
+  (viewComments)="onShowComments($event)" 
+  ></app-post-list>
 </ion-content>

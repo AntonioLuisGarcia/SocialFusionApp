@@ -12,6 +12,8 @@ import { ImageSelectableComponent } from './components/image-selectable/image-se
 import { PostItemComponent } from './components/post-item/post-item.component';
 import { PostListComponent } from './components/post-list/post-list.component';
 import { UserInfoComponent } from './components/user-info/user-info.component';
+import { CommentItemComponent } from './components/comment-item/comment-item.component';
+import { CommentModalComponent } from './components/comment-modal/comment-modal.component';
 
 
 
@@ -23,6 +25,8 @@ import { UserInfoComponent } from './components/user-info/user-info.component';
     ImageSelectableComponent,
     UserInfoComponent,
     FormatDatePipe,
+    CommentItemComponent,
+    CommentModalComponent
   ],
   imports: [
     CommonModule,
@@ -51,6 +55,8 @@ import { UserInfoComponent } from './components/user-info/user-info.component';
     PostListComponent,
     UserInfoComponent,
     FormatDatePipe,
+    CommentItemComponent,
+    CommentModalComponent
   ]
 })
 export class SharedModule { }
