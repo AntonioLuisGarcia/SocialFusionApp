@@ -1,12 +1,14 @@
 /// Angular
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 /// Services
 import { AuthService } from 'src/app/core/services/auth.service';
 import { LikeService } from 'src/app/core/services/like.service';
 import { PostService } from 'src/app/core/services/post.service';
 import { CommentService } from 'src/app/core/services/comment.service';
+import { MediaService } from 'src/app/core/services/media.service';
 
 /// Interfaces
 import { Comment } from 'src/app/core/interfaces/Comment';
@@ -17,10 +19,10 @@ import { UserExtended } from 'src/app/core/interfaces/User';
 import { CommentModalComponent } from '../../shared/components/comment-modal/comment-modal.component';
 import { AddPostModalComponent } from 'src/app/shared/components/add-post-modal/add-post-modal.component';
 import { ConfirmDeleteAccountComponent } from './confirm-delete-account/confirm-delete-account.component';
-import { Router } from '@angular/router';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+
+/// Helpers
 import { dataURLtoBlob } from 'src/app/core/helpers/blob';
-import { MediaService } from 'src/app/core/services/media.service';
 
 @Component({
   selector: 'app-personal',
@@ -43,14 +45,14 @@ export class PersonalPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.authService.me().subscribe( data => {
-      this.actualUser = data;
-      // Iniciar la carga de posts para el usuario actual
-      this.postService.posts$.subscribe(posts => {
-        this.userPosts = posts;
-      });
-      this.postService.getPostsByUserId(data.id, data.id).subscribe();  
-      // Suscribirse a los cambios de posts
+    this.authService.currentUser$.subscribe(user => {
+      this.actualUser = user;
+      if (user) {
+        // Iniciar la carga de posts para el usuario actual
+        this.postService.getPostsByUserId(user.id, user.id).subscribe(posts => {
+          this.userPosts = posts;
+        });
+      }
     });
   }
   

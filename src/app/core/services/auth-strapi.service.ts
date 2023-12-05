@@ -15,11 +15,6 @@ import { User, UserBasicInfo, UserExtended } from '../interfaces/User';
 
 export class AuthStrapiService extends AuthService{
 
-  // BehaviorSubject para almacenar el estado de autenticación del usuario
-  private _currentUser: BehaviorSubject<UserBasicInfo | null> = new BehaviorSubject<UserBasicInfo | null>(null);
-  public currentUser$: Observable<UserBasicInfo | null> = this._currentUser.asObservable();
-
-
   constructor(
     private jwtSvc:JwtService,
     private apiSvc:ApiService
@@ -168,7 +163,7 @@ export class AuthStrapiService extends AuthService{
 
   public updateUser(id: number, userData: UserBasicInfo): Observable<UserBasicInfo> {
     return this.apiSvc.put(`/users/${id}`, userData).pipe(
-      tap((updatedUserData: UserBasicInfo) => {
+      tap((updatedUserData: UserExtended) => {
         // Actualiza el BehaviorSubject con la nueva información del usuario
         this._currentUser.next(updatedUserData);
       })

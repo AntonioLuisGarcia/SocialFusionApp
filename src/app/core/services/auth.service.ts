@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 /// Rxjs
 import { BehaviorSubject, Observable} from 'rxjs';
-import { UserBasicInfo } from '../interfaces/User';
+import { UserExtended } from '../interfaces/User';
 
 
 @Injectable({
@@ -13,6 +13,10 @@ export abstract class AuthService {
 
   protected _logged = new BehaviorSubject<boolean>(false);
   public isLogged$ = this._logged.asObservable();
+
+  // BehaviorSubject para almacenar el estado de autenticación del usuario
+  protected _currentUser: BehaviorSubject<UserExtended | null> = new BehaviorSubject<UserExtended | null>(null);
+  public currentUser$: Observable<UserExtended | null> = this._currentUser.asObservable();
   
   public abstract login(credentials:Object):Observable<any>;
 
