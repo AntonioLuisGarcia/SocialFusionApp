@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 /// Rxjs
 import { BehaviorSubject, Observable} from 'rxjs';
+import { UserBasicInfo } from '../interfaces/User';
 
 
 @Injectable({

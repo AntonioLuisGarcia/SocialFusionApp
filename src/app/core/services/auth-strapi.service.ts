@@ -1,5 +1,5 @@
 /// Rxjs
-import { Observable, lastValueFrom, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, lastValueFrom, map, tap } from 'rxjs';
 
 /// Service
 import { AuthService } from './auth.service';
@@ -14,6 +14,11 @@ import { User, UserBasicInfo, UserExtended } from '../interfaces/User';
 
 
 export class AuthStrapiService extends AuthService{
+
+  // BehaviorSubject para almacenar el estado de autenticación del usuario
+  private _currentUser: BehaviorSubject<UserBasicInfo | null> = new BehaviorSubject<UserBasicInfo | null>(null);
+  public currentUser$: Observable<UserBasicInfo | null> = this._currentUser.asObservable();
+
 
   constructor(
     private jwtSvc:JwtService,
@@ -121,8 +126,7 @@ export class AuthStrapiService extends AuthService{
     return new Observable<UserExtended>(obs=>{
       this.apiSvc.get('/users/me?populate=*').subscribe({
         next:async (user:any)=>{
-          //let extended_user = await lastValueFrom(this.apiSvc.get(`/users?filters[id]=${user.id}`));
-
+          
           const imageUrl = user.image ? user.image.url : null;
 
           let ret:UserExtended = {
@@ -134,6 +138,8 @@ export class AuthStrapiService extends AuthService{
             description:user.description,
             img: imageUrl
           }
+          
+          this._currentUser.next(ret);
           obs.next(ret);
           obs.complete();
         },
@@ -160,8 +166,13 @@ export class AuthStrapiService extends AuthService{
     );
   }
 
-  public updateUser(id: number, userData:UserBasicInfo): Observable<UserBasicInfo> {
-    return this.apiSvc.put(`/users/${id}`, userData);
+  public updateUser(id: number, userData: UserBasicInfo): Observable<UserBasicInfo> {
+    return this.apiSvc.put(`/users/${id}`, userData).pipe(
+      tap((updatedUserData: UserBasicInfo) => {
+        // Actualiza el BehaviorSubject con la nueva información del usuario
+        this._currentUser.next(updatedUserData);
+      })
+    );
   }
 
 }

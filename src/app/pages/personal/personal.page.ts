@@ -44,15 +44,18 @@ export class PersonalPage implements OnInit {
 
   ngOnInit() {
     this.authService.me().subscribe( data => {
-      this.actualUser = data
-      this.postService.getPostsByUserId(data.id, data.id).subscribe(data =>{
-        this.userPosts = data
-      })
-    })
+      this.actualUser = data;
+      // Iniciar la carga de posts para el usuario actual
+      this.postService.posts$.subscribe(posts => {
+        this.userPosts = posts;
+      });
+      this.postService.getPostsByUserId(data.id, data.id).subscribe();  
+      // Suscribirse a los cambios de posts
+    });
   }
+  
 
   onLikePost(postId:number){
-
     this.authService.me().subscribe((data) =>{
       this.likeService.onLike(postId, data.id).subscribe({
         next: (response) => {
@@ -93,8 +96,9 @@ export class PersonalPage implements OnInit {
   }
   
   onDeletePost(postId: number) {
-    this.postService.deletePost(postId).subscribe( () =>
-      this.loadPosts()
+    this.postService.deletePost(postId).subscribe( 
+      //() =>
+      //this.loadPosts()
     )
   }
 
@@ -117,8 +121,9 @@ export class PersonalPage implements OnInit {
     const { data } = await modal.onDidDismiss();
     if (data && data.status === 'ok') {
       console.log(data);
-      this.postService.updatePost(data.post).subscribe( ()=>
-        this.loadPosts()
+      this.postService.updatePost(data.post).subscribe( 
+        //()=>
+        //this.loadPosts()
       );
     }
   }
