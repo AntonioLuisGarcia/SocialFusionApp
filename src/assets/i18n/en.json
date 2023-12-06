@@ -14,7 +14,8 @@
         "createAnAcount":"Create an acount",
         "passwordProto":"Password must include upper and lower case letters and numbers",
         "emailValidation":"Type a correct email",
-        "noSpaces":"Username cannot includes spaces"
+        "noSpaces":"Username cannot includes spaces",
+        "haveAccount":"I have an account"
     },
 
     "sideBar":{
@@ -23,6 +24,19 @@
     },
 
     "home":{
-        "newPost":"New Post"
+        "newPost":"New Post",
+        "search":"Search",
+        "commentType":"Type a comment...",
+        "showComments":"Show Comments"
+    },
+
+    "personal":{
+        "edit":"Edit Account",
+        "delete":"Delete Account",
+        "questionModal":"Are you sure you want to delete your account permanently?",
+        "cancel":"Cancel",
+        "username":"Username",
+        "name":"Name",
+        "save":"Save"
     }
 }

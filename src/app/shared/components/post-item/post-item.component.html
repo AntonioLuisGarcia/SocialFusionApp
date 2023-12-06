@@ -9,31 +9,33 @@
     </ion-button>
   </div>
 
-  <img *ngIf="post?.img" [src]="post?.img" alt="Imagen del post" />
-
+  
   <ion-card-header>
     <ion-card-title>{{ post?.user?.username }}</ion-card-title>
-    <ion-card-subtitle>{{ post?.date | formatDate }}</ion-card-subtitle>
   </ion-card-header>
-
+  
+  <img *ngIf="post?.img" [src]="post?.img" alt="Imagen del post" />
+  
   <ion-card-content>
-    <p>{{ post?.description }}</p>
+    <ion-card-subtitle>{{ post?.description }}</ion-card-subtitle>
+    <ion-card-subtitle class="date">{{ post?.date | formatDate }}</ion-card-subtitle>
 
-    <ion-icon
-      name="thumbs-up"
-      [ngStyle]="{'color': post?.likedByUser ? 'blue' : 'black'}"
-      (click)="like($event)"
-      ></ion-icon>
-    <button ion-button small (click)="viewComments($event)">Ver Comentarios</button>
-
-      
-  <form (ngSubmit)="comment($event, commentInput.value)">
-    <input type="text" #commentInput placeholder="Escribe un comentario...">
-    <button type="submit" ion-button small>
-      <ion-icon name="send"></ion-icon>
-    </button>
-  </form>
-
+    <div class="like-comment-container">
+      <ion-icon
+        class="like-icon"
+        name="thumbs-up"
+        [ngStyle]="{'color': post?.likedByUser ? 'blue' : 'black'}"
+        (click)="like($event)"
+        ></ion-icon>
+  
+      <form class="comment-form" (ngSubmit)="comment($event, commentInput.value)">
+        <input type="text" #commentInput placeholder="{{'home.commentType' | translate}}">
+        <button type="submit" ion-button small>
+          <ion-icon name="send"></ion-icon>
+        </button>
+      </form>
+    </div>
+      <button ion-button small (click)="viewComments($event)">{{"home.showComments" | translate}}</button>
   </ion-card-content>
 </ion-card>
   

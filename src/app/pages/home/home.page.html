@@ -1,19 +1,23 @@
 <app-sidebar></app-sidebar>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="content-container">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Blank</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-button (click)="presentAddPostModal()">Añadir Publicación</ion-button>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button class="add-post-button" (click)="presentAddPostModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
   <ion-button (click)="onSignOut()">Logout</ion-button>
 
   <ion-button (click)="navigateToPersonalPage()">Ir a Personal Page</ion-button>
 
-  <ion-button (click)="navigateToSearchPage()">Search</ion-button>
+  <ion-button (click)="navigateToSearchPage()">{{"home.search" | translate}}</ion-button>
 
   <app-post-list 
   [posts]="posts"

@@ -15,3 +15,66 @@ ion-card {
   button {
     margin-top: 10px;
   }
+
+/* Estilo para la fecha */
+ion-card-header ion-card-subtitle {
+  text-align: left;
+}
+
+/* Estilo para el botón de "like" */
+ion-card-content ion-icon {
+  color: #666; /* Un color gris menos oscuro */
+}
+
+/* Estilo para el input de comentario */
+form input[type="text"] {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 1em;
+}
+
+
+/* Estilo para el nombre de usuario */
+ion-card-header ion-card-title {
+  font-size: 0.8em; /* Ajusta este valor a tus necesidades */
+}
+
+/* Estilo para la fecha */
+.date {
+  text-align: right;
+}
+
+/* Estilo para el botón de "like" */
+.like-icon {
+  color: #666; /* Un color gris menos oscuro */
+}
+
+/* Estilo para el input de comentario */
+.comment-form input[type="text"] {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 1em;
+}
+
+.like-comment-container {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.like-icon {
+  margin-right: 10px; /* Ajusta este valor a tus necesidades */
+}
+
+.comment-form {
+  display: flex;
+  align-items: center;
+}
+
+.comment-form input[type="text"] {
+  flex-grow: 1;
+  margin-right: 10px; /* Ajusta este valor a tus necesidades */
+}

@@ -25,3 +25,14 @@
 #container a {
   text-decoration: none;
 }
+
+.content-container {
+  position: relative;
+}
+
+.add-post-button {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  --background: var(--ion-color-primary);
+}
