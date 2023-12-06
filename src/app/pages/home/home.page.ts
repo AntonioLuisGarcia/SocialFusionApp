@@ -5,9 +5,9 @@ import { ModalController } from '@ionic/angular';
 
 /// Services
 import { AuthService } from 'src/app/core/services/auth.service';
-import { PostService } from 'src/app/core/services/post.service';
-import { LikeService } from 'src/app/core/services/like.service';
-import { CommentService } from 'src/app/core/services/comment.service';
+import { PostService } from 'src/app/core/services/strapi/post.service';
+import { LikeService } from 'src/app/core/services/strapi/like.service';
+import { CommentService } from 'src/app/core/services/strapi/comment.service';
 import { MediaService } from 'src/app/core/services/media.service';
 
 /// Interfaces
@@ -55,11 +55,12 @@ export class HomePage implements OnInit{
         });
         this.postService.fetchAndEmitPosts(data.id);
       }
+      console.log(data.id)
+      console.log(this.me.id)
     });
   }
 
   onLikePost(postId:number){
-
     this.auth.me().subscribe((data) =>{
       this.likeService.onLike(postId, data.id).subscribe({
         next: (response) => {

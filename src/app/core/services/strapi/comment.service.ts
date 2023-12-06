@@ -5,10 +5,10 @@ import { Injectable } from '@angular/core';
 import { Observable, map} from 'rxjs';
 
 ///Service
-import { ApiService } from './api.service';
+import { ApiService } from '../api.service';
 
 /// Interface
-import { Comment, CommentWithUserName } from '../interfaces/Comment';
+import { Comment, CommentWithUserName } from '../../interfaces/Comment';
 
 
 

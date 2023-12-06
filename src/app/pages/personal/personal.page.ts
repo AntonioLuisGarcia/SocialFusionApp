@@ -5,9 +5,9 @@ import { Router } from '@angular/router';
 
 /// Services
 import { AuthService } from 'src/app/core/services/auth.service';
-import { LikeService } from 'src/app/core/services/like.service';
-import { PostService } from 'src/app/core/services/post.service';
-import { CommentService } from 'src/app/core/services/comment.service';
+import { LikeService } from 'src/app/core/services/strapi/like.service';
+import { PostService } from 'src/app/core/services/strapi/post.service';
+import { CommentService } from 'src/app/core/services/strapi/comment.service';
 import { MediaService } from 'src/app/core/services/media.service';
 
 /// Interfaces
@@ -59,28 +59,37 @@ export class PersonalPage implements OnInit {
   }
   
 
-  onLikePost(postId:number){
-    this.authService.me().subscribe((data) =>{
-      this.likeService.onLike(postId, data.id).subscribe({
-        next: (response) => {
-          this.postService.updatePostLike(postId,response.like)
-          //this.postService.fetchAndEmitPosts(this.me.id)
+  // PersonalPage Component
+onLikePost(postId: number) {
+  this.authService.me().subscribe((data) => {
+    this.likeService.onLike(postId, data.id).subscribe({
+      next: (response) => {
+        // Encuentra el post en la lista para actualizarlo.
+        const index = this.userPosts.findIndex((p: PostExtended) => p.id === postId);
+        if (index !== -1) {
+          // Cambia el estado de 'likedByUser' al opuesto del actual.
+          const likedByUser = !this.userPosts[index].likedByUser;
 
-          const updatedPosts = this.userPosts.map((post: PostExtended) => {
-            if (post.id === postId) {
-              return { ...post, likedByUser: response.like };
-            }
-            return post;
-          });
-  
-          this.userPosts = updatedPosts;
-        },
-        error: (error) => {
-          console.error('Error al cambiar el estado del like', error);
+          // Crea una nueva referencia del objeto post para la detección de cambios.
+          const updatedPost = {
+            ...this.userPosts[index],
+            likedByUser: likedByUser,
+          };
+
+          // Crea una nueva referencia del arreglo para la detección de cambios.
+          this.userPosts = [
+            ...this.userPosts.slice(0, index),
+            updatedPost,
+            ...this.userPosts.slice(index + 1),
+          ];
         }
-      });
-    })
-  }
+      },
+      error: (error) => {
+        console.error('Error al cambiar el estado del like', error);
+      }
+    });
+  });
+}
   
   onCommentPost(comment:Comment){
     this.authService.me().subscribe((data) =>{
@@ -101,7 +110,6 @@ export class PersonalPage implements OnInit {
       await modal.present();
     });
   }
-  
   
   onEditPost(post: PostExtended) {
     console.log(post);

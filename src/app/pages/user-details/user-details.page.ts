@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { LikeService } from 'src/app/core/services/like.service';
-import { PostService } from 'src/app/core/services/post.service';
+import { LikeService } from 'src/app/core/services/strapi/like.service';
+import { PostService } from 'src/app/core/services/strapi/post.service';
 import { Comment } from 'src/app/core/interfaces/Comment';
-import { CommentService } from 'src/app/core/services/comment.service';
+import { CommentService } from 'src/app/core/services/strapi/comment.service';
 import { ModalController } from '@ionic/angular';
 import { CommentModalComponent } from 'src/app/shared/components/comment-modal/comment-modal.component';
 
@@ -29,6 +29,9 @@ export class UserDetailsPage implements OnInit {
     this.user = history.state.user;
     this.authService.me().subscribe(
       data =>{
+        this.postService.posts$.subscribe( (posts) =>{
+          this.posts = posts
+        })
         this.postService.getPostsByUserId(data.id, this.user.id).subscribe(
           posts => {console.log(data)
             this.posts = posts
@@ -36,20 +39,27 @@ export class UserDetailsPage implements OnInit {
     })    
   }
 
-  onLikePost(postId:number){
-
-    this.authService.me().subscribe((data) =>{
+  onLikePost(postId: number) {
+    this.authService.me().subscribe((data) => {
       this.likeService.onLike(postId, data.id).subscribe({
         next: (response) => {
-          this.postService.updatePostLike(postId,response.like)
-          //this.postService.fetchAndEmitPosts(this.me.id)
+          // Actualizar el estado del like en el servicio
+          this.postService.updatePostLike(postId, response.like);
+          
+          // Volver a suscribirte a los posts para reflejar los cambios
+          this.postService.getPostsByUserId(data.id, this.user.id).subscribe(
+            updatedPosts => {
+              this.posts = updatedPosts;
+            }
+          );
         },
         error: (error) => {
           console.error('Error al cambiar el estado del like', error);
         }
       });
-    })
+    });
   }
+  
   
   onCommentPost(comment:Comment){
     this.authService.me().subscribe((data) =>{

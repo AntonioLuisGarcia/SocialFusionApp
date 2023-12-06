@@ -5,10 +5,10 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, concatMap, map, of} from 'rxjs';
 
 /// Services
-import { ApiService } from './api.service';
+import { ApiService } from '../api.service';
 
 /// Interfaces
-import { Post, PostExtended } from '../interfaces/post';
+import { Post, PostExtended } from '../../interfaces/post';
 
 @Injectable({
   providedIn: 'root'
@@ -244,11 +244,16 @@ export class PostService {
   
   
   updatePostLike(postId: number, liked: boolean): void {
-    this._posts.next(
-      this._posts.value.map(post =>
-        post.id === postId ? { ...post, likedByUser: liked } : post
-      )
+    // Primero, obtenemos el valor actual del Observable _posts.
+    const currentPosts = this._posts.value;
+  
+    // Luego, creamos una nueva lista de posts, donde el post con el id especificado
+    // tiene su propiedad 'likedByUser' actualizada.
+    const updatedPosts = currentPosts.map(post =>
+      post.id === postId ? { ...post, likedByUser: liked } : post
     );
+  
+    // Finalmente, emitimos la nueva lista de posts en el Observable _posts.
+    this._posts.next(updatedPosts);
   }
-
 }

@@ -11,12 +11,12 @@ import {TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { createTranslateLoader } from './core/translate/translate';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ApiService } from './core/services/api.service';
-import { AuthStrapiService } from './core/services/auth-strapi.service';
+import { AuthStrapiService } from './core/services/strapi/auth-strapi.service';
 import { JwtService } from './core/services/jwt.service';
 import { HttpClientWebProvider } from './core/services/http-client-web.provider';
 import { AuthService } from './core/services/auth.service';
 import { HttpClientProvider } from './core/services/http-client.provider';
-import { MediaStrapiService } from './core/services/media-strapi.service';
+import { MediaStrapiService } from './core/services/strapi/media-strapi.service';
 import { MediaService } from './core/services/media.service';
 
 export function httpProviderFactory(
