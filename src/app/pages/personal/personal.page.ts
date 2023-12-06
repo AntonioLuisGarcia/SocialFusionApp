@@ -54,6 +54,7 @@ export class PersonalPage implements OnInit {
       if (this.actualUser) {
         console.log(posts)
         this.userPosts = posts.filter(post => post.user?.id === this.actualUser.id);
+        this.userPosts = [...this.userPosts];
       }
     });
   }
@@ -142,22 +143,25 @@ onLikePost(postId: number) {
     await modal.present();  
     const { data } = await modal.onDidDismiss();
     if (data && data.status === 'ok') {
-
-      const updatedData = {
-        ...post, // contiene el estado original completo, incluido 'likedByUser' y 'user'
-        ...data.post, // contiene solo los campos actualizados: 'description' y 'image'
-      };
-
-      this.postService.updatePost(updatedData, this.actualUser.id).subscribe(apiResponse => {
-        const updatedPost = this.normalizePostData(apiResponse, this.actualUser, updatedData.likedByUser);
-        // Actualiza tu lista de posts aquí, por ejemplo:
-        console.log(updatedData)
-        console.log(updatedData.likedByUser)
-        console.log(updatedPost)
-        this.userPosts = this.userPosts.map((p:any) => p.id === updatedPost.id ? updatedPost : p);
+      const { description, image } = data.post;
+      const currentImage = post.img;
+      dataURLtoBlob(image, (blob: Blob) => {
+        this.mediaService.upload(blob).subscribe((media: number[]) => {
+          const imageUrl = media.length > 0 ? media[0] : null;
+          const updatedData = {
+            ...post,
+            description,
+            img: imageUrl || currentImage
+          };
+          this.postService.updatePost(updatedData, this.actualUser.id).subscribe(apiResponse => {
+            const updatedPost = this.normalizePostData(apiResponse, this.actualUser, updatedData.likedByUser);
+            this.userPosts = this.userPosts.map((p:any) => p.id === updatedPost.id ? updatedPost :p);
+          });
+        });
       });
     }
   }
+  
 
 async editProfile() {
   const modal = await this.modalController.create({
@@ -257,7 +261,7 @@ updateUserProfile(userId: number, userInfo: any) {
   }
 
 
-  normalizePostData(apiResponse: any, currentUser: UserExtended, like:boolean): PostExtended {
+  normalizePostData(apiResponse: any, currentUser: UserExtended, like:any): PostExtended {
     let post: PostExtended;
 
     if (apiResponse.attributes) {

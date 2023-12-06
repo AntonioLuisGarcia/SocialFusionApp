@@ -137,30 +137,24 @@ export class PostService {
   }
   
 
-  public updatePost(post: PostExtended, userId: number): Observable<PostExtended> {
+  public updatePost(post: any, userId: number): Observable<PostExtended> {
     const data = {
       data: {
         description: post.description,
         image: post.img
-      }
-    };
-  
+      }};
     return this.api.put(`/posts/${post.id}`, data).pipe(
       map((response: any) => {
         let updatedPost = response.data;
-  
         // Asegurarse de que updatedPost tenga la información del usuario
         if (!updatedPost.user) {
           updatedPost = {
             ...updatedPost,
             user: { id: userId } // Añadiendo solo el ID del usuario
-          };
-        }
-  
+          };}
         // Actualizar la lista de posts con el post actualizado
         const posts = this._posts.value.map(p => p.id === post.id ? updatedPost : p);
-        this._posts.next(posts);
-  
+        this._posts.next(posts); 
         return updatedPost;
       })
     );

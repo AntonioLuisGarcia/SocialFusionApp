@@ -78,3 +78,7 @@ ion-card-header ion-card-title {
   flex-grow: 1;
   margin-right: 10px; /* Ajusta este valor a tus necesidades */
 }
+
+ion-button[slot="end"] {
+  margin-left: auto;
+}

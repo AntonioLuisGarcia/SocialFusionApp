@@ -14,6 +14,7 @@ import { PostListComponent } from './components/post-list/post-list.component';
 import { UserInfoComponent } from './components/user-info/user-info.component';
 import { CommentItemComponent } from './components/comment-item/comment-item.component';
 import { CommentModalComponent } from './components/comment-modal/comment-modal.component';
+import { HeaderComponent } from './components/header/header.component';
 
 
 
@@ -26,7 +27,8 @@ import { CommentModalComponent } from './components/comment-modal/comment-modal.
     UserInfoComponent,
     FormatDatePipe,
     CommentItemComponent,
-    CommentModalComponent
+    CommentModalComponent,
+    HeaderComponent,
   ],
   imports: [
     CommonModule,
@@ -56,7 +58,8 @@ import { CommentModalComponent } from './components/comment-modal/comment-modal.
     UserInfoComponent,
     FormatDatePipe,
     CommentItemComponent,
-    CommentModalComponent
+    CommentModalComponent,
+    HeaderComponent,
   ]
 })
 export class SharedModule { }
