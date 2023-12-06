@@ -40,6 +40,7 @@ export class PostListComponent  implements OnInit {
   }
 
   onEditPost(post: PostExtended) {
+    console.log(post)
     this.editPost.emit(post);
   }
 

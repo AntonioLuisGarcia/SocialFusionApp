@@ -74,9 +74,6 @@ export class PostService {
     );
   }
   
-
-  
-
   public getAllPostsWithUser(): Observable<PostExtended[]> {
     return this.api.get("/posts?populate=user").pipe(
       map(response => {
@@ -140,23 +137,35 @@ export class PostService {
   }
   
 
-  public updatePost(post: PostExtended): Observable<PostExtended> {
+  public updatePost(post: PostExtended, userId: number): Observable<PostExtended> {
     const data = {
       data: {
         description: post.description,
         image: post.img
       }
     };
+  
     return this.api.put(`/posts/${post.id}`, data).pipe(
-      map((updatedPost: PostExtended) => {
-        // Actualizamos la lista de posts con el post actualizado
+      map((response: any) => {
+        let updatedPost = response.data;
+  
+        // Asegurarse de que updatedPost tenga la información del usuario
+        if (!updatedPost.user) {
+          updatedPost = {
+            ...updatedPost,
+            user: { id: userId } // Añadiendo solo el ID del usuario
+          };
+        }
+  
+        // Actualizar la lista de posts con el post actualizado
         const posts = this._posts.value.map(p => p.id === post.id ? updatedPost : p);
         this._posts.next(posts);
+  
         return updatedPost;
       })
     );
   }
-
+  
   public patchPost(post: PostExtended): Observable<PostExtended> {
     return this.api.patch(`/posts/${post.id}`, post).pipe(
       map((updatedPost: PostExtended) => {

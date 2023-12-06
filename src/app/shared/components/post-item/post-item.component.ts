@@ -63,6 +63,7 @@ export class PostItemComponent  implements OnInit {
   editPost(event:any) {
     if(this.post && this.post.id){
       this.onEditPost.emit(this.post);
+      console.log(this.post)
     }
     event.stopPropagation();
   }

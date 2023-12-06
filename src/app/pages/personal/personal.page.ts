@@ -47,11 +47,13 @@ export class PersonalPage implements OnInit {
   ngOnInit() {
     this.authService.currentUser$.subscribe(user => {
       this.actualUser = user;
-      if (user) {
-        // Iniciar la carga de posts para el usuario actual
-        this.postService.getPostsByUserId(user.id, user.id).subscribe(posts => {
-          this.userPosts = posts;
-        });
+      
+    });
+
+    this.postService.posts$.subscribe(posts => {
+      if (this.actualUser) {
+        console.log(posts)
+        this.userPosts = posts.filter(post => post.user?.id === this.actualUser.id);
       }
     });
   }
@@ -63,6 +65,15 @@ export class PersonalPage implements OnInit {
         next: (response) => {
           this.postService.updatePostLike(postId,response.like)
           //this.postService.fetchAndEmitPosts(this.me.id)
+
+          const updatedPosts = this.userPosts.map((post: PostExtended) => {
+            if (post.id === postId) {
+              return { ...post, likedByUser: response.like };
+            }
+            return post;
+          });
+  
+          this.userPosts = updatedPosts;
         },
         error: (error) => {
           console.error('Error al cambiar el estado del like', error);
@@ -108,6 +119,7 @@ export class PersonalPage implements OnInit {
     this.authService.me().subscribe( data => {
       this.postService.getPostsByUserId(data.id, data.id).subscribe(data =>{
         this.userPosts = data
+        console.log("scroll1")
       })
     })
   }
@@ -122,56 +134,22 @@ export class PersonalPage implements OnInit {
     await modal.present();  
     const { data } = await modal.onDidDismiss();
     if (data && data.status === 'ok') {
-      console.log(data);
-      this.postService.updatePost(data.post).subscribe( 
-        //()=>
-        //this.loadPosts()
-      );
-    }
-  }
-  
-  /*
-  async editProfile(){
-    const modal = await this.modalController.create({
-      component: EditProfileComponent,
-      componentProps: {
-        user: this.actualUser
-      }
-    });
-  
-    console.log(this.actualUser)
-    await modal.present();
-  
-    const { data } = await modal.onDidDismiss();
-    if (data && data.status === 'ok') {
-      // Aquí manejas la lógica para actualizar el perfil del usuario
-      console.log('Datos actualizados del perfil:', data.user);
-      dataURLtoBlob(data.user.img, (blob:Blob)=>{
-        this.mediaService.upload(blob).subscribe((media:number[])=>{
-                // Obtener detalles del usuario
-      this.authService.me().subscribe(
-        user => {
-          const imageUrl = media.length > 0 ? media[0] : null;
-          console.log(imageUrl)
-          const userInfo: any = {
-            img: imageUrl,
-            name: data.user.name,
-            username: data.user.username
-          };
-        this.authService.updateUser(user.id, userInfo).subscribe({
-          next: () => {
-            //this.postService.fetchAndEmitPosts(this.me.id);
-          },
-          error: (error) => {
-            console.error('Error al crear el post', error);
-          }
-        });
+
+      const updatedData = {
+        ...post, // contiene el estado original completo, incluido 'likedByUser' y 'user'
+        ...data.post, // contiene solo los campos actualizados: 'description' y 'image'
+      };
+
+      this.postService.updatePost(updatedData, this.actualUser.id).subscribe(apiResponse => {
+        const updatedPost = this.normalizePostData(apiResponse, this.actualUser, updatedData.likedByUser);
+        // Actualiza tu lista de posts aquí, por ejemplo:
+        console.log(updatedData)
+        console.log(updatedData.likedByUser)
+        console.log(updatedPost)
+        this.userPosts = this.userPosts.map((p:any) => p.id === updatedPost.id ? updatedPost : p);
       });
-        })
-      })
     }
   }
-*/
 
 async editProfile() {
   const modal = await this.modalController.create({
@@ -271,4 +249,37 @@ updateUserProfile(userId: number, userInfo: any) {
   }
 
 
+  normalizePostData(apiResponse: any, currentUser: UserExtended, like:boolean): PostExtended {
+    let post: PostExtended;
+
+    if (apiResponse.attributes) {
+      // Si la respuesta viene de Strapi y tiene un formato anidado
+      post = {
+        id: apiResponse.id,
+        description: apiResponse.attributes.description,
+        date: apiResponse.attributes.createdAt,
+        img: apiResponse.attributes.image?.data?.attributes.url,
+        user: {
+          id: apiResponse.user?.id || currentUser.id,
+          username: currentUser.username, // Usa el nombre de usuario del usuario actual
+          name: currentUser.name,
+        },
+        likedByUser: like
+      };
+    } else {
+      // Si la respuesta ya está en el formato plano esperado
+      post = {
+        ...apiResponse,
+        user: apiResponse.user || {
+          id: currentUser.id,
+          username: currentUser.username,
+          name: currentUser.name,
+        },
+        likedByUser: like // Mantén el estado del "like" si ya viene incluido
+      };
+    }
+  
+    return post;
+  }
+  
 }
