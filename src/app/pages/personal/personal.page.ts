@@ -47,14 +47,17 @@ export class PersonalPage implements OnInit {
   ngOnInit() {
     this.authService.currentUser$.subscribe(user => {
       this.actualUser = user;
-      
     });
 
     this.postService.posts$.subscribe(posts => {
       if (this.actualUser) {
-        console.log(posts)
-        this.userPosts = posts.filter(post => post.user?.id === this.actualUser.id);
-        this.userPosts = [...this.userPosts];
+        console.log(posts);
+        this.userPosts = posts.filter((post: PostExtended) => post.user?.id === this.actualUser.id);
+        this.userPosts.sort((a: PostExtended, b: PostExtended) => {
+          let dateA = new Date(a.date);
+          let dateB = new Date(b.date);
+          return dateB.getTime() - dateA.getTime();
+        });
       }
     });
   }

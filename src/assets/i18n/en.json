@@ -7,8 +7,8 @@
         "name":"Name",
         "email":"Email",
         "pwdRepeat":"Repeat password",
-        "description":"Description(Optional)",
-        "required":"This field is required",
+        "description":"Description",
+        "required":"This field is required", 
         "matchPwd":"Passwords do not match",
         "descriptionMaxLeght":"Cannot be more than 500 characters",
         "createAnAcount":"Create an acount",
@@ -29,7 +29,9 @@
         "newPost":"New Post",
         "search":"Search",
         "commentType":"Type a comment...",
-        "showComments":"Show Comments"
+        "showComments":"Show Comments",
+        "close":"Close",
+        "publish":"Publish"
     },
 
     "personal":{

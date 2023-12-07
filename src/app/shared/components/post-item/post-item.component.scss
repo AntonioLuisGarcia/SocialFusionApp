@@ -19,6 +19,7 @@ ion-card {
 /* Estilo para la fecha */
 ion-card-header ion-card-subtitle {
   text-align: left;
+  font-size: 1.5dvi;
 }
 
 /* Estilo para el botón de "like" */
@@ -36,7 +37,7 @@ form input[type="text"] {
 
 
 /* Estilo para el nombre de usuario */
-ion-card-header ion-card-title {
+ion-card-header {
   font-size: 0.8em; /* Ajusta este valor a tus necesidades */
 }
 
@@ -89,4 +90,17 @@ ion-button[slot="end"] {
 
 .delete-button {
   float: right;
+}
+
+ion-card-title {
+  font-size:1.3em; /* Ajusta este valor según lo necesites */
+  font-weight: bold;
+}
+
+ion-card {
+  border: 1px solid #a0a0a0; /* Ajusta el color y el tamaño del borde según tus necesidades */
+}
+
+.description {
+  font-size: 1.2em;
 }

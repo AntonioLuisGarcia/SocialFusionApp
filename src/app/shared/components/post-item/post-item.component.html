@@ -17,7 +17,7 @@
   <img *ngIf="post?.img" [src]="post?.img" alt="Imagen del post" />
   
   <ion-card-content>
-    <ion-card-subtitle>{{ post?.description }}</ion-card-subtitle>
+    <ion-card-subtitle class="description">{{ post?.description }}</ion-card-subtitle>
     <ion-card-subtitle class="date">{{ post?.date | formatDate }}</ion-card-subtitle>
 
     <div class="like-comment-container">

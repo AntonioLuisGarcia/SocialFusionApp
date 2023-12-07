@@ -7,7 +7,7 @@
         "name":"Nombre Completo",
         "email":"Email",
         "pwdRepeat":"Repetir contraseña",
-        "description":"Descripción(Opcional)",
+        "description":"Descripción",
         "required":"Este campo es obligatorio",
         "matchPwd":"Las contraseñas no coinciden",
         "descriptionMaxLeght":"No puede tener mas de 500 caracteres",
@@ -24,12 +24,14 @@
         "logout":"Cerrar Sesión",
         "personal":"Perfil"
     },
-
+    
     "home":{
         "newPost":"Nueva Publicación",
         "search":"Buscar",
         "commentType":"Escribe un comentario...",
-        "showComments":"Ver Comentarios"
+        "showComments":"Ver Comentarios",
+        "close":"Cerrar",
+        "publish":"Publicar"
     },
 
     "personal":{

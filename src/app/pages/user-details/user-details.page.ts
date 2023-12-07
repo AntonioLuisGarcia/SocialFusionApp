@@ -27,16 +27,19 @@ export class UserDetailsPage implements OnInit {
 
   ngOnInit() {
     this.user = history.state.user;
-    this.authService.me().subscribe(
-      data =>{
-        this.postService.posts$.subscribe( (posts) =>{
-          this.posts = posts
-        })
-        this.postService.getPostsByUserId(data.id, this.user.id).subscribe(
-          posts => {console.log(data)
-            this.posts = posts
-      })
-    })    
+    this.authService.me().subscribe(data => {
+      this.postService.posts$.subscribe(posts => {
+        this.posts = posts;
+      });
+      this.postService.getPostsByUserId(data.id, this.user.id).subscribe(posts => {
+        console.log(data);
+        this.posts = posts.sort((a, b) => {
+          let dateA = new Date(a.date);
+          let dateB = new Date(b.date);
+          return dateB.getTime() - dateA.getTime();
+        });
+      });
+    });  
   }
 
   onLikePost(postId: number) {

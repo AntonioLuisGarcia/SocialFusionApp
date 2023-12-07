@@ -32,7 +32,6 @@ export class HomePage implements OnInit{
   //llamo a los servicios 
   constructor(
     private auth:AuthService,
-    private router:Router,
     private postService:PostService,
     private likeService:LikeService,
     private commentService:CommentService,
@@ -51,7 +50,11 @@ export class HomePage implements OnInit{
       // Ahora que tenemos `this.me`, podemos obtener los posts
       if (this.me && this.me.id) {
         this.postService.posts$.subscribe((posts) => {
-          this.posts = posts;
+          this.posts = posts.sort((a, b) => {
+            let dateA = new Date(a.date);
+            let dateB = new Date(b.date);
+            return dateB.getTime() - dateA.getTime();
+          });
         });
         this.postService.fetchAndEmitPosts(data.id);
       }

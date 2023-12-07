@@ -19,6 +19,7 @@ import { HttpClientProvider } from './core/services/http-client.provider';
 import { MediaStrapiService } from './core/services/strapi/media-strapi.service';
 import { MediaService } from './core/services/media.service';
 import { SharedModule } from "./shared/shared.module";
+import { HoverColorDirective } from './shared/directives/hover-color.directive';
 
 export function httpProviderFactory(
   http:HttpClient,
@@ -47,6 +48,7 @@ export function MediaServiceFactory(
 @NgModule({
     declarations: [
         AppComponent,
+        HoverColorDirective,
     ],
     providers: [
         {
