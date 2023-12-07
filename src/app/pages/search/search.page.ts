@@ -18,6 +18,7 @@ export class SearchPage implements OnInit {
 
   searchControl = new FormControl();
   filteredUsers = [];
+  searched = false;
 
   constructor(
     private authService: AuthService,
@@ -34,9 +35,12 @@ export class SearchPage implements OnInit {
   
   searchUsers(query: string) {
     if(query) {
+      this.searched = true;
       this.authService.searchUser(query).subscribe(results => {
         this.filteredUsers = results;
       });
+    } else {
+      this.searched = false;
     }
   }
   

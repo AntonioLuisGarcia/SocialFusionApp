@@ -23,6 +23,7 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 /// Helpers
 import { dataURLtoBlob } from 'src/app/core/helpers/blob';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-personal',
@@ -149,22 +150,23 @@ onLikePost(postId: number) {
       const { description, image } = data.post;
       const currentImage = post.img;
       dataURLtoBlob(image, (blob: Blob) => {
-        this.mediaService.upload(blob).subscribe((media: number[]) => {
-          const imageUrl = media.length > 0 ? media[0] : null;
-          const updatedData = {
-            ...post,
-            description,
-            img: imageUrl || currentImage
-          };
-          this.postService.updatePost(updatedData, this.actualUser.id).subscribe(apiResponse => {
-            const updatedPost = this.normalizePostData(apiResponse, this.actualUser, updatedData.likedByUser);
-            this.userPosts = this.userPosts.map((p:any) => p.id === updatedPost.id ? updatedPost :p);
-          });
+        this.mediaService.upload(blob).pipe(
+          switchMap((media: number[]) => {
+            const imageUrl = media.length > 0 ? media[0] : null;
+            const updatedData = {
+              ...post,
+              description,
+              img: imageUrl || currentImage
+            };
+            return this.postService.updatePost(updatedData, this.actualUser.id);
+          }),
+          switchMap(() => this.postService.getPostsByUserId(this.actualUser.id, this.actualUser.id))
+        ).subscribe(updatedPosts => {
+          this.userPosts = updatedPosts;
         });
       });
-    }
-  }
-  
+    }  
+}
 
 async editProfile() {
   const modal = await this.modalController.create({
@@ -224,7 +226,7 @@ async editProfile() {
 
 updateUserProfile(userId: number, userInfo: any) {
   this.authService.updateUser(userId, userInfo).subscribe({
-    next: () => {
+    next: (updatedUser: UserExtended) => {
       // Manejo adecuado tras la actualización exitosa
       console.log('Perfil actualizado correctamente.');
     },

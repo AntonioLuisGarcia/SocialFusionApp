@@ -49,5 +49,9 @@
         "information":"Soy estudiante de 2º DAM en el CPIFP Alan Turing.",
         "text":"Este proyecto se basa en una red social, con los funcionamientos basicos, como subir pueblicaciones, dar likes, y comentar.",
         "socialNetworks":"Redes Sociales"
+    },
+
+    "search":{
+        "noResults":"No hay usuarios con ese nombre"
     }
 }

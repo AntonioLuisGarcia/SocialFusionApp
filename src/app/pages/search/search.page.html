@@ -7,4 +7,7 @@
   <!-- Barra de búsqueda de Ionic -->
   <ion-searchbar [formControl]="searchControl"></ion-searchbar>
   <app-user-list [users]="filteredUsers" (onClickUser)="userClicked($event)" ></app-user-list>
+  <ion-list class="empty-list"  *ngIf="searched && filteredUsers.length === 0">
+    <ion-item>{{"search.noResults" | translate}}</ion-item>
+  </ion-list>
 </ion-content>
