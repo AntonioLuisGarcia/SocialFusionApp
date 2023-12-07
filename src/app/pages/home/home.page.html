@@ -13,12 +13,6 @@
     </ion-fab-button>
   </ion-fab>
 
-  <ion-button (click)="onSignOut()">Logout</ion-button>
-
-  <ion-button (click)="navigateToPersonalPage()">Ir a Personal Page</ion-button>
-
-  <ion-button (click)="navigateToSearchPage()">{{"home.search" | translate}}</ion-button>
-
   <app-post-list 
   [posts]="posts"
   [showEditDeleteButtons]="false"

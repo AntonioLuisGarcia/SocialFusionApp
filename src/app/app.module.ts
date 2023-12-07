@@ -18,6 +18,7 @@ import { AuthService } from './core/services/auth.service';
 import { HttpClientProvider } from './core/services/http-client.provider';
 import { MediaStrapiService } from './core/services/strapi/media-strapi.service';
 import { MediaService } from './core/services/media.service';
+import { SharedModule } from "./shared/shared.module";
 
 export function httpProviderFactory(
   http:HttpClient,
@@ -44,43 +45,44 @@ export function MediaServiceFactory(
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
-  imports: [
-    BrowserModule, 
-    IonicModule.forRoot(), 
-    AppRoutingModule,
-    HttpClientModule,
-    TranslateModule.forRoot({
-      loader: {
-      provide: TranslateLoader,
-      useFactory: (createTranslateLoader),
-      deps: [HttpClient]
-      }
-      }),
-  ],
-  providers: [
-    {
-      provide: 'backend',
-      useValue:'Strapi'
-    },
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    {
-      provide: HttpClientProvider,
-      deps: [HttpClient, Platform],
-      useFactory: httpProviderFactory,  
-    },
-    {
-      provide: AuthService,
-      deps: [JwtService, ApiService],
-      useFactory: AuthServiceFactory,  
-    },    {
-      provide: MediaService,
-      deps: ['backend', ApiService],
-      useFactory: MediaServiceFactory,  
-    }
-  ],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+    ],
+    providers: [
+        {
+            provide: 'backend',
+            useValue: 'Strapi'
+        },
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+        {
+            provide: HttpClientProvider,
+            deps: [HttpClient, Platform],
+            useFactory: httpProviderFactory,
+        },
+        {
+            provide: AuthService,
+            deps: [JwtService, ApiService],
+            useFactory: AuthServiceFactory,
+        }, {
+            provide: MediaService,
+            deps: ['backend', ApiService],
+            useFactory: MediaServiceFactory,
+        }
+    ],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        IonicModule.forRoot(),
+        AppRoutingModule,
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (createTranslateLoader),
+                deps: [HttpClient]
+            }
+        }),
+        SharedModule
+    ]
 })
 export class AppModule {}

@@ -1,7 +1,7 @@
 <ion-card>
-  <img *ngIf="user?.img" [src]="user?.img" alt="{{ user?.username }}">
+  <img *ngIf="user?.img" [src]="user?.img" alt="{{ user?.username }}" class="user-image">
 
-  <ion-card-header>
+  <ion-card-header class="user-info">
     <ion-card-title>{{ user?.name }}</ion-card-title>
     <ion-card-subtitle>{{ user?.username }}</ion-card-subtitle>
   </ion-card-header>

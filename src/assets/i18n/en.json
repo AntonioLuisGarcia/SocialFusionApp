@@ -20,7 +20,9 @@
 
     "sideBar":{
         "search":"Search",
-        "home":"Home"
+        "home":"Home",
+        "logout":"Logout",
+        "personal":"Personal"
     },
 
     "home":{
@@ -38,5 +40,12 @@
         "username":"Username",
         "name":"Name",
         "save":"Save"
+    },
+
+    "about":{
+        "title":"About",
+        "information":"I am a 2º DAM student at the CPIFP Alan Turing.",
+        "text":"This project is based on a social network, with basic functions, like as uploading posts, giving likes, and commenting.",
+        "socialNetworks":"Social Network"
     }
 }

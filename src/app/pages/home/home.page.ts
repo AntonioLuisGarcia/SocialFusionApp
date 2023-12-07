@@ -94,21 +94,6 @@ export class HomePage implements OnInit{
     });
   }
   
-
-  onSignOut() {
-    this.auth.logout().subscribe(_=>{
-      this.router.navigate(['/login']);
-    });  
-  }
-
-  navigateToPersonalPage() {
-    this.router.navigate(['/personal']);
-  }
-
-  navigateToSearchPage() {
-    this.router.navigate(['/search']);
-  }
-
   async presentAddPostModal() {
     const modal = await this.modalController.create({
       component: AddPostModalComponent

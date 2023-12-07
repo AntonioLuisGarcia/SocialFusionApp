@@ -20,7 +20,9 @@
 
     "sideBar":{
         "search":"Buscar",
-        "home":"Home"
+        "home":"Inico",
+        "logout":"Cerrar Sesión",
+        "personal":"Perfil"
     },
 
     "home":{
@@ -38,5 +40,12 @@
         "username":"Nombre de Usuario",
         "name":"Nombre",
         "save":"Guardar"
+    },
+
+    "about":{
+        "title":"Contacto",
+        "information":"Soy estudiante de 2º DAM en el CPIFP Alan Turing.",
+        "text":"Este proyecto se basa en una red social, con los funcionamientos basicos, como subir pueblicaciones, dar likes, y comentar.",
+        "socialNetworks":"Redes Sociales"
     }
 }
