@@ -4,7 +4,8 @@
       <ion-title size="large">{{"sideBar.search" | translate}}</ion-title>
     </ion-toolbar>
   </ion-header>
-  <!-- Barra de búsqueda de Ionic -->
+
+  <!-- Barra de búsqueda -->
   <ion-searchbar [formControl]="searchControl"></ion-searchbar>
   <app-user-list [users]="filteredUsers" (onClickUser)="userClicked($event)" ></app-user-list>
   <ion-list class="empty-list"  *ngIf="searched && filteredUsers.length === 0">

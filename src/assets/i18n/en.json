@@ -31,7 +31,8 @@
         "commentType":"Type a comment...",
         "showComments":"Show Comments",
         "close":"Close",
-        "publish":"Publish"
+        "publish":"Publish",
+        "comment":"Comments"
     },
 
     "personal":{

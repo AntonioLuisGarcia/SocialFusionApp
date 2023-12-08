@@ -31,7 +31,8 @@
         "commentType":"Escribe un comentario...",
         "showComments":"Ver Comentarios",
         "close":"Cerrar",
-        "publish":"Publicar"
+        "publish":"Publicar",
+        "comment":"Comentarios"
     },
 
     "personal":{

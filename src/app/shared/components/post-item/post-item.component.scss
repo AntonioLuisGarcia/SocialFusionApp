@@ -16,18 +16,16 @@ ion-card {
     margin-top: 10px;
   }
 
-/* Estilo para la fecha */
+
 ion-card-header ion-card-subtitle {
   text-align: left;
   font-size: 1.5dvi;
 }
 
-/* Estilo para el botón de "like" */
 ion-card-content ion-icon {
-  color: #666; /* Un color gris menos oscuro */
+  color: #666; 
 }
 
-/* Estilo para el input de comentario */
 form input[type="text"] {
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -36,22 +34,21 @@ form input[type="text"] {
 }
 
 
-/* Estilo para el nombre de usuario */
+
 ion-card-header {
-  font-size: 0.8em; /* Ajusta este valor a tus necesidades */
+  font-size: 0.8em; 
 }
 
-/* Estilo para la fecha */
 .date {
   text-align: right;
 }
 
-/* Estilo para el botón de "like" */
+
 .like-icon {
-  color: #666; /* Un color gris menos oscuro */
+  color: #666; 
 }
 
-/* Estilo para el input de comentario */
+
 .comment-form input[type="text"] {
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -67,7 +64,7 @@ ion-card-header {
 }
 
 .like-icon {
-  margin-right: 10px; /* Ajusta este valor a tus necesidades */
+  margin-right: 10px; 
 }
 
 .comment-form {
@@ -77,7 +74,7 @@ ion-card-header {
 
 .comment-form input[type="text"] {
   flex-grow: 1;
-  margin-right: 10px; /* Ajusta este valor a tus necesidades */
+  margin-right: 10px; 
 }
 
 ion-button[slot="end"] {
@@ -93,14 +90,19 @@ ion-button[slot="end"] {
 }
 
 ion-card-title {
-  font-size:1.3em; /* Ajusta este valor según lo necesites */
+  font-size:1.3em; 
   font-weight: bold;
 }
 
 ion-card {
-  border: 1px solid #a0a0a0; /* Ajusta el color y el tamaño del borde según tus necesidades */
+  border: 1px solid #a0a0a0; 
 }
 
 .description {
   font-size: 1.2em;
+}
+
+ion-card img {
+  display: block;
+  margin: auto;
 }

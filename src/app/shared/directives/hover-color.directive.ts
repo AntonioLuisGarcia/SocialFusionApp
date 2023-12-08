@@ -1,27 +1,36 @@
-import { ChangeDetectorRef, Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import { ChangeDetectorRef, Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[appHoverColor]'
 })
 export class HoverColorDirective {
 
-  constructor(private el: ElementRef, private renderer: Renderer2) { }
-
-  @HostListener('mouseenter') onMouseEnter() {
-    this.hover(true);
+  private _color:string = "transparent";
+  @Input() set appHighLight(color:string){
+    this._color = color;
+  }
+  get appHighLight():string{
+    return this._color;
+  }
+  constructor(
+    private renderer:Renderer2,
+    private el:ElementRef
+  ) {
+    this.unsetHighlight();
   }
 
-  @HostListener('mouseleave') onMouseLeave() {
-    this.hover(false);
+  @HostListener('mouseenter') onMouseEnter(){
+    this.setHighlight();
   }
 
-  private hover(add: boolean) {
-    if (this.el && this.el.nativeElement) {
-      if (add) {
-        this.renderer.addClass(this.el.nativeElement, 'hover-color');
-      } else {
-        this.renderer.removeClass(this.el.nativeElement, 'hover-color');
-      }
+  @HostListener('mouseleave') onMouseLeave(){
+    this.unsetHighlight();
+  }
+
+  private setHighlight(){
+    this.renderer.addClass(this.el.nativeElement, 'highlight');
+  }
+  private unsetHighlight(){
+    this.renderer.removeClass(this.el.nativeElement, 'highlight');
     }
-  }
 }
