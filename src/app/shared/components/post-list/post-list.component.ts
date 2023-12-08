@@ -2,7 +2,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 /// Interfaces
-import { Comment } from 'src/app/core/interfaces/Comment';
+import { Comment } from 'src/app/core/interfaces/comment';
 import { PostExtended } from 'src/app/core/interfaces/post';
 
 @Component({

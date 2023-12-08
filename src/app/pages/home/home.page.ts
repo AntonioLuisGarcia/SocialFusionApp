@@ -13,7 +13,7 @@ import { MediaService } from 'src/app/core/services/media.service';
 /// Interfaces
 import { PostExtended } from 'src/app/core/interfaces/post';
 import { UserExtended } from 'src/app/core/interfaces/User';
-import { Comment } from 'src/app/core/interfaces/Comment';
+import { Comment } from 'src/app/core/interfaces/comment';
 
 /// Modals
 import { AddPostModalComponent } from '../../shared/components/add-post-modal/add-post-modal.component';

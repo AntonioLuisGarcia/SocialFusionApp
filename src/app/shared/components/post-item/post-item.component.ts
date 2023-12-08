@@ -4,7 +4,7 @@ import { Component, Input, OnInit, Output, EventEmitter, ElementRef, ViewChild }
 /// Interfaces
 import { UserExtended } from 'src/app/core/interfaces/User';
 import { PostExtended } from 'src/app/core/interfaces/post';
-import { Comment } from 'src/app/core/interfaces/Comment';
+import { Comment } from 'src/app/core/interfaces/comment';
 
 @Component({
   selector: 'app-post-item',

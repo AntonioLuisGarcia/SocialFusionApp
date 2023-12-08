@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { LikeService } from 'src/app/core/services/strapi/like.service';
 import { PostService } from 'src/app/core/services/strapi/post.service';
-import { Comment } from 'src/app/core/interfaces/Comment';
+import { Comment } from 'src/app/core/interfaces/comment';
 import { CommentService } from 'src/app/core/services/strapi/comment.service';
 import { ModalController } from '@ionic/angular';
 import { CommentModalComponent } from 'src/app/shared/components/comment-modal/comment-modal.component';

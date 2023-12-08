@@ -11,7 +11,7 @@ import { CommentService } from 'src/app/core/services/strapi/comment.service';
 import { MediaService } from 'src/app/core/services/media.service';
 
 /// Interfaces
-import { Comment } from 'src/app/core/interfaces/Comment';
+import { Comment } from 'src/app/core/interfaces/comment';
 import { PostExtended } from 'src/app/core/interfaces/post';
 import { UserExtended } from 'src/app/core/interfaces/User';
 

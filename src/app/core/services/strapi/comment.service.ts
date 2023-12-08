@@ -8,7 +8,8 @@ import { Observable, map} from 'rxjs';
 import { ApiService } from '../api.service';
 
 /// Interface
-import { CommentWithUserName, Comment } from '../../interfaces/Comment';
+import { CommentWithUserName, Comment } from 'src/app/core/interfaces/comment';
+
 
 
 
