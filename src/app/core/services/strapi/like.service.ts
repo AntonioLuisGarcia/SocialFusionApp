@@ -17,14 +17,15 @@ export class LikeService {
 
   constructor(
     private api:ApiService
-  ) { 
+  ) {}
 
-  }
-
+  //BehaviorSubject y Observable para estar pendiente de los cambios de los likes
   private _posts:BehaviorSubject<Like[]> = new BehaviorSubject<Like[]>([]);
   public posts$:Observable<Like[]> = this._posts.asObservable();
 
+  //Con este metodo crearemos un like
   public createLike(postId: number, userId: number): Observable<any> {
+    //Creamos el objeto para enviar a la api
     const likeData = {
       data:{
         like: true,
@@ -35,7 +36,9 @@ export class LikeService {
     return this.api.post("/likes", likeData);
   }
   
+  //Con este metodo cambiaremos el estado de un like
   public changeLikeStatus(likeId: number, likeStatus: boolean): Observable<any> {
+    //Creamos el objeto para enviar a la api
     const body = {
       data: {
         like: likeStatus
@@ -44,29 +47,32 @@ export class LikeService {
     return this.api.put(`/likes/${likeId}`, body);
   }
   
+  //Este metodo será el único que llamaremos desde el page
   public onLike(postId: number, userId: number): Observable<any> {
-    // Intenta encontrar un registro de like existente
+    // Busca si existe un like que tenga las dos fk de post y user
     return this.api.get(`/likes?filters[post]=${postId}&filters[user]=${userId}`).pipe(
-      switchMap((likeRecord: any) => {
-        if (likeRecord.data.length > 0) {
+      // Utilizamos switchMap para cambiar a otro observable dependiendo del resultado
+      switchMap((like: any) => {
+        if (like.data.length > 0) {
           // Si existe cambia su estado
-          const newLikeStatus = !likeRecord.data[0].attributes.like;
-          return this.changeLikeStatus(likeRecord.data[0].id, newLikeStatus);
+          const newLike = !like.data[0].attributes.like;
+          return this.changeLikeStatus(like.data[0].id, newLike);
         } else {
-          // Si no existe, crea un nuevo registro de like
+          // Si no existe, crea un nuevo like
           return this.createLike(postId, userId);
         }
       })
     );
   }
 
+  //Con este verificamos si hay un like y si es false o true
   checkLike(postId: number, userId: number): Observable<boolean> {
     return this.api.get(`/likes?filters[post]=${postId}&filters[user]=${userId}`)
     .pipe(
       map(response => {
-        // Primero, verifica si hay algún dato
+        // verifica si hay algún dato
         if (response.data && response.data.length > 0) {
-          // Si hay datos, devuelve el valor de 'like'
+          // Si hay datos devuelve el valor de like
           return response.data[0].attributes.like;
         }
         // Si no hay datos, entonces no hay 'like', devuelve false
