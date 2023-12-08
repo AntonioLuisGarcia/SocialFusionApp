@@ -209,8 +209,8 @@ export class PostService {
         const posts = response.data.map((item: any) => {
           const hasImage = item.attributes.image?.data 
                             && item.attributes.image.data.attributes.formats 
-                            && item.attributes.image.data.attributes.formats.medium;
-          const imgURL = hasImage ? item.attributes.image.data.attributes.formats.medium.url : null;
+                            && item.attributes.image.data.attributes.formats.small;
+          const imgURL = hasImage ? item.attributes.image.data.attributes.formats.small.url : null;
   
           const likedByUser = item.attributes.likes.data.some((like: any) => 
             like.attributes.user.data.id === userId && like.attributes.like);

@@ -5,20 +5,23 @@ import { ChangeDetectorRef, Directive, ElementRef, HostListener, Renderer2 } fro
 })
 export class HoverColorDirective {
 
-  constructor(private el: ElementRef, private renderer: Renderer2, private cd: ChangeDetectorRef) { }
+  constructor(private el: ElementRef, private renderer: Renderer2) { }
 
   @HostListener('mouseenter') onMouseEnter() {
-    this.hover('blue');
+    this.hover(true);
   }
 
   @HostListener('mouseleave') onMouseLeave() {
-    this.hover("");
+    this.hover(false);
   }
 
-  private hover(color: string) {
+  private hover(add: boolean) {
     if (this.el && this.el.nativeElement) {
-      this.renderer.setStyle(this.el.nativeElement, 'color', color);
-      this.cd.detectChanges();
+      if (add) {
+        this.renderer.addClass(this.el.nativeElement, 'hover-color');
+      } else {
+        this.renderer.removeClass(this.el.nativeElement, 'hover-color');
+      }
     }
   }
 }
