@@ -22,6 +22,7 @@ export class MediaStrapiService extends MediaService{
     super();
   }
 
+  // Con este metodo subimos el Blob a Strapi
   public upload(blob:Blob):Observable<number[]>{
     console.log(blob)
     const formData = new FormData();
