@@ -101,12 +101,12 @@ export class AuthStrapiService extends AuthService{
   //Con este metodo nos registraremos
   register(info:UserRegister):Observable<void>{
     return new Observable<void>(obs=>{
-      // const _info:StrapiRegisterPayload = {
-      //   name:info.name,
-      //   email:info.email,
-      //   username:info.username,
-      //   password:info.password
-      // }
+       const _info:StrapiRegisterPayload = {
+         username:info.username,
+         email:info.email,
+         password:info.password,
+         name:info.name,
+       }
       //Hacemos un post con los datos y recogermos el jwt en caso de ser validas las credenciales
       this.apiSvc.post("/auth/local/register", info).subscribe({
         next:async (data:StrapiRegisterResponse)=>{
