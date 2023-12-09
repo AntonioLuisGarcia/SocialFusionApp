@@ -26,6 +26,7 @@ export class LoginFormComponent  implements OnInit {
   constructor(
     private formBuilder:FormBuilder
   ) { 
+    // Los validadores del formulario
     this.form = this.formBuilder.group({
       username:['', [Validators.required, usernameValidators.noSpacesInName()]],
       password:['', [Validators.required, usernameValidators.noSpacesInName(), PasswordValidation.passwordProto()]]
@@ -34,18 +35,15 @@ export class LoginFormComponent  implements OnInit {
 
   ngOnInit() {}
 
+  // Al enviar el formulario, emitimos los datos y borramos la contraseña
   onSubmit(){
     this.onsubmit.emit(this.form?.value);
     this.form?.controls['password'].setValue('');
   }
-
-
-//Revisar ESTO
 
   hasError(control:string, error:string):boolean{
     let errors = this.form?.controls[control].errors;
     console.log("Tiene espacios")
     return errors!=null && error in errors;
   }
-
 }

@@ -14,7 +14,7 @@
         "createAnAcount":"Crear una cuenta",
         "passwordProto":"La contraseña debe tener mayusculas, minusculas y numeros",
         "emailValidation":"Usa un email correcto",
-        "noSpaces":"Username cannot includes spaces",
+        "noSpaces":"El nombre de usuario no puede tener espacios",
         "haveAccount":"Tengo cuenta"
     },
 

@@ -1,11 +1,18 @@
+/// Angular
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+
+/// Services
 import { AuthService } from 'src/app/core/services/auth.service';
 import { LikeService } from 'src/app/core/services/strapi/like.service';
 import { PostService } from 'src/app/core/services/strapi/post.service';
-import { Comment } from 'src/app/core/interfaces/comment';
 import { CommentService } from 'src/app/core/services/strapi/comment.service';
-import { ModalController } from '@ionic/angular';
+
+/// Components
 import { CommentModalComponent } from 'src/app/shared/components/comment-modal/comment-modal.component';
+
+/// Interfaces
+import { Comment } from 'src/app/core/interfaces/comment';
 
 @Component({
   selector: 'app-user-details',
@@ -25,14 +32,16 @@ export class UserDetailsPage implements OnInit {
     private modalController:ModalController,
   ) { }
 
+  // Al iniciar la página, obtenemos el usuario de la página anterior y sus posts
   ngOnInit() {
+    // Obtenemos el usuario de la página anterior, mediante el historial de navegación
     this.user = history.state.user;
     this.authService.me().subscribe(data => {
       this.postService.posts$.subscribe(posts => {
         this.posts = posts;
       });
+      // Cogemos los post de ese usuario y los likes del usuario actual, y los ordenamos por fecha
       this.postService.getPostsByUserId(data.id, this.user.id).subscribe(posts => {
-        console.log(data);
         this.posts = posts.sort((a, b) => {
           let dateA = new Date(a.date);
           let dateB = new Date(b.date);
@@ -42,6 +51,7 @@ export class UserDetailsPage implements OnInit {
     });  
   }
 
+  // En caso de dar like a algun post 
   onLikePost(postId: number) {
     this.authService.me().subscribe((data) => {
       this.likeService.onLike(postId, data.id).subscribe({
@@ -49,7 +59,7 @@ export class UserDetailsPage implements OnInit {
           // Actualizar el estado del like en el servicio
           this.postService.updatePostLike(postId, response.like);
           
-          // Volver a suscribirte a los posts para reflejar los cambios
+          // actualizamos los cambios
           this.postService.getPostsByUserId(data.id, this.user.id).subscribe(
             updatedPosts => {
               this.posts = updatedPosts;
@@ -63,15 +73,18 @@ export class UserDetailsPage implements OnInit {
     });
   }
   
-  
+  // Si se comenta un post
   onCommentPost(comment:Comment){
     this.authService.me().subscribe((data) =>{
+      // Con el mensaje y el id del usuario, creamos el comentario, junto con el id del post
         comment.userId = data.id
         this.commentService.addComment(comment).subscribe()  
     })    
   }
   
+  // Mostramos los comentarios de un post
   async onShowComments(postId: number) {
+    // Obtenemos los comentarios del post por su id y los mostramos en un modal
     this.commentService.getCommentForPots(postId).subscribe(async (comments) => {
       const modal = await this.modalController.create({
         component: CommentModalComponent,
@@ -83,5 +96,4 @@ export class UserDetailsPage implements OnInit {
       await modal.present();
     });
   }
-
 }

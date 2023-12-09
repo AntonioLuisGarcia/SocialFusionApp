@@ -12,7 +12,7 @@
   <p  style='color: red;' *ngIf="this.form.get('username')?.errors?.['required'] && this.form.controls['username'].touched">
     {{"login.required" | translate}}
   </p>
-  <p  style='color: red;' *ngIf="this.form.get('username')?.errors?.['noSpacesInName']">
+  <p style='color: red;' *ngIf="this.form.get('username')?.errors?.['noSpacesAllowed'] && this.form.controls['username'].touched">
     {{"login.noSpaces" | translate}}
   </p>
 

@@ -15,16 +15,16 @@ import { usernameValidators } from 'src/app/core/validators/username';
   styleUrls: ['./create-account-form.component.scss'],
 })
 export class CreateAccountFormComponent  implements OnInit {
-
-  @Input()
-
+  
   @Output() onsubmit = new EventEmitter<UserRegister>();
+  
+  ngOnInit() {}
 
   form:FormGroup | null = null;
   constructor(private formBuilder:FormBuilder) {
     this.form  = formBuilder.group({
       name:["",[Validators.required]],
-      username:["",[Validators.required, usernameValidators.noSpacesInName()]],//crear validador para que no se repita
+      username:["",[Validators.required, usernameValidators.noSpacesInName()]],
       email:["",[Validators.required, Validators.email]],
       password:["",[Validators.required, Validators.minLength(8), PasswordValidation.passwordProto(), usernameValidators.noSpacesInName()]],
       passwordRepeat: ['', Validators.required]
@@ -33,12 +33,7 @@ export class CreateAccountFormComponent  implements OnInit {
     });
   }
 
-  //TODO
   onSubmit(){
     this.onsubmit.emit(this.form?.value);
   }
-
-  ngOnInit() {}
-
-
 }
