@@ -14,8 +14,8 @@ export class UserItemComponent  implements OnInit {
 
   ngOnInit() {}
 
+  // Cuando se hace click en un usuario, se emite el evento con el id del usuario hacia el padre
   userClicked() {
     this.onClickUser.emit(this.user.id);
   }
-
 }

@@ -46,13 +46,14 @@ export class PersonalPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    // Nos suscrbimos al usuario actual
     this.authService.currentUser$.subscribe(user => {
       this.actualUser = user;
     });
 
+    // Nos suscribimos a los posts y los ordenamos por fecha
     this.postService.posts$.subscribe(posts => {
       if (this.actualUser) {
-        console.log(posts);
         this.userPosts = posts.filter((post: PostExtended) => post.user?.id === this.actualUser.id);
         this.userPosts.sort((a: PostExtended, b: PostExtended) => {
           let dateA = new Date(a.date);
@@ -64,38 +65,38 @@ export class PersonalPage implements OnInit {
   }
   
 
-  // PersonalPage Component
-onLikePost(postId: number) {
-  this.authService.me().subscribe((data) => {
-    this.likeService.onLike(postId, data.id).subscribe({
-      next: (response) => {
-        // Encuentra el post en la lista para actualizarlo.
-        const index = this.userPosts.findIndex((p: PostExtended) => p.id === postId);
-        if (index !== -1) {
-          // Cambia el estado de 'likedByUser' al opuesto del actual.
-          const likedByUser = !this.userPosts[index].likedByUser;
-
-          // Crea una nueva referencia del objeto post para la detección de cambios.
-          const updatedPost = {
-            ...this.userPosts[index],
-            likedByUser: likedByUser,
-          };
-
-          // Crea una nueva referencia del arreglo para la detección de cambios.
-          this.userPosts = [
-            ...this.userPosts.slice(0, index),
-            updatedPost,
-            ...this.userPosts.slice(index + 1),
-          ];
+  // Si se da like al post
+  onLikePost(postId: number) {
+    this.authService.me().subscribe((data) => {
+      // Llamamos al servicio de likes
+      this.likeService.onLike(postId, data.id).subscribe({
+        next: (response) => {
+          // Encuentra el post en la lista para actualizarlo
+          const index = this.userPosts.findIndex((p: PostExtended) => p.id === postId);
+          if (index !== -1) {
+            // Cambia el estado del like al contrario
+            const likedByUser = !this.userPosts[index].likedByUser;
+            // Actualiza el post con el nuevo estado del like
+            const updatedPost = {
+              ...this.userPosts[index],
+              likedByUser: likedByUser,
+            };
+            // Actualiza la lista de posts
+            this.userPosts = [
+              ...this.userPosts.slice(0, index),
+              updatedPost,
+              ...this.userPosts.slice(index + 1),
+            ];
+          }
+        },
+        error: (error) => {
+          console.error('Error al cambiar el estado del like', error);
         }
-      },
-      error: (error) => {
-        console.error('Error al cambiar el estado del like', error);
-      }
+      });
     });
-  });
-}
+  }
   
+  // Si se comenta un post
   onCommentPost(comment:Comment){
     this.authService.me().subscribe((data) =>{
         comment.userId = data.id
@@ -103,7 +104,9 @@ onLikePost(postId: number) {
     })    
   }
   
+  // Si se quiere ver los comentarios de un post
   async onShowComments(postId: number) {
+    // Obtenemos los comentarios del post por su id y los mostramos en un modal
     this.commentService.getCommentForPots(postId).subscribe(async (comments) => {
       const modal = await this.modalController.create({
         component: CommentModalComponent,
@@ -115,29 +118,21 @@ onLikePost(postId: number) {
       await modal.present();
     });
   }
-  
+
+  // Si se quiere editar un post llamamos al metodo openEditModal
   onEditPost(post: PostExtended) {
-    console.log(post);
     this.openEditModal(post);
   }
   
+  // Si se quiere borrar un post
   onDeletePost(postId: number) {
     this.postService.deletePost(postId).subscribe( 
-      //() =>
-      //this.loadPosts()
     )
   }
 
-  loadPosts(){
-    this.authService.me().subscribe( data => {
-      this.postService.getPostsByUserId(data.id, data.id).subscribe(data =>{
-        this.userPosts = data
-        console.log("scroll1")
-      })
-    })
-  }
-
+  // Si se quiere editar un post, se abre el modal para cambiar los datos
   async openEditModal(post: PostExtended) {
+    // Le pasamso la información del post al modal para que rellene los campos
     const modal = await this.modalController.create({
       component: AddPostModalComponent,
       componentProps: {
@@ -146,110 +141,116 @@ onLikePost(postId: number) {
     });
     await modal.present();  
     const { data } = await modal.onDidDismiss();
+    // Si hay datos y se han confirmado
     if (data && data.status === 'ok') {
       const { description, image } = data.post;
       const currentImage = post.img;
+      //Pasamos la imagen a blob
       dataURLtoBlob(image, (blob: Blob) => {
+        // Subimos el blob de la imagen y realizamos operaciones secuenciales
         this.mediaService.upload(blob).pipe(
           switchMap((media: number[]) => {
+            // Obtenemos la URL de la imagen subida
             const imageUrl = media.length > 0 ? media[0] : null;
+            // Creamos los datos actualizados del post
             const updatedData = {
               ...post,
               description,
               img: imageUrl || currentImage
             };
+            // Actualizamos el post y luego obtenemos los posts actualizados por el usuario
             return this.postService.updatePost(updatedData, this.actualUser.id);
           }),
           switchMap(() => this.postService.getPostsByUserId(this.actualUser.id, this.actualUser.id))
         ).subscribe(updatedPosts => {
+          //Actualizamos la lista de posts
           this.userPosts = updatedPosts;
         });
       });
     }  
-}
+  }
 
-async editProfile() {
-  const modal = await this.modalController.create({
-    component: EditProfileComponent,
-    componentProps: {
-      user: this.actualUser
-    }
-  });
+  // Si se quiere editar el perfil, se abre el modal para cambiar los datos
+  async editProfile() {
+    // Le pasamos la información del usuario al modal para que rellene los campos
+    const modal = await this.modalController.create({
+      component: EditProfileComponent,
+      componentProps: {
+        user: this.actualUser
+      }
+    });
 
-  console.log(this.actualUser);
-
-  await modal.present();
-
-  const { data } = await modal.onDidDismiss();
-  if (data && data.status === 'ok') {
-    console.log('Datos actualizados del perfil:', data.user);
-
-    // Verifica si hay una imagen nueva o si la imagen se ha eliminado
-    if (data.user.img && data.user.img !== this.actualUser.img) {
-      // Si hay una imagen nueva y es diferente a la actual
-      dataURLtoBlob(data.user.img, (blob: Blob) => {
-        this.mediaService.upload(blob).subscribe((media: number[]) => {
-          // Obtener detalles del usuario
-          this.authService.me().subscribe(user => {
-            const imageUrl = media.length > 0 ? media[0] : null;
-            console.log('Nueva URL de imagen:', imageUrl);
-            const userInfo: any = {
-              image: imageUrl,
-              name: data.user.name,
-              username: data.user.username
-            };
-            // Actualiza la información del usuario con la nueva imagen
-            this.updateUserProfile(user.id, userInfo);
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    // Si hay datos y se han confirmaso
+    if (data && data.status === 'ok') {
+      // Verifica si hay una imagen nueva o si la imagen se ha eliminado
+      if (data.user.img && data.user.img !== this.actualUser.img) {
+        // Si hay una imagen nueva y es diferente a la actual
+        dataURLtoBlob(data.user.img, (blob: Blob) => {
+          this.mediaService.upload(blob).subscribe((media: number[]) => {
+            // Obtener detalles del usuario
+            this.authService.me().subscribe(user => {
+              const imageUrl = media.length > 0 ? media[0] : null;
+              console.log('Nueva URL de imagen:', imageUrl);
+              const userInfo: any = {
+                image: imageUrl,
+                name: data.user.name,
+                username: data.user.username
+              };
+              // Actualiza la información del usuario con la nueva imagen
+              this.updateUserProfile(user.id, userInfo);
+            });
           });
         });
-      });
-    } else if (!data.user.img) {
-      // Si la imagen ha sido eliminada
-      const userInfo: any = {
-        image: null, // Establece la imagen en null para eliminarla
-        name: data.user.name,
-        username: data.user.username
-      };
-      // Actualiza la información del usuario sin la imagen
-      this.updateUserProfile(this.actualUser.id, userInfo);
-    } else {
-      // Si la imagen no ha cambiado
-      const userInfo: any = {
-        name: data.user.name,
-        username: data.user.username
-      };
-      // Actualiza solo el nombre y el nombre de usuario
-      this.updateUserProfile(this.actualUser.id, userInfo);
+      } else if (!data.user.img) {
+        // Si la imagen ha sido eliminada
+        const userInfo: any = {
+          image: null, // Establece la imagen en null para eliminarla
+          name: data.user.name,
+          username: data.user.username
+        };
+        // Actualiza la información del usuario sin la imagen
+        this.updateUserProfile(this.actualUser.id, userInfo);
+      } else {
+        // Si la imagen no ha cambiado
+        const userInfo: any = {
+          name: data.user.name,
+          username: data.user.username
+        };
+        // Actualiza solo el nombre y el nombre de usuario
+        this.updateUserProfile(this.actualUser.id, userInfo);
+      }
     }
   }
-}
 
-updateUserProfile(userId: number, userInfo: any) {
-  this.authService.updateUser(userId, userInfo).subscribe({
-    next: (updatedUser: UserExtended) => {
-      // Manejo adecuado tras la actualización exitosa
-      console.log('Perfil actualizado correctamente.');
-    },
-    error: (error) => {
-      console.error('Error al actualizar el perfil', error);
-    }
-  });
-}
+  // Actualiza el perfil del usuario
+  updateUserProfile(userId: number, userInfo: any) {
+    this.authService.updateUser(userId, userInfo).subscribe({
+      next: (updatedUser: UserExtended) => {
+        // Manejo adecuado tras la actualización exitosa
+        console.log('Perfil actualizado correctamente.');
+      },
+      error: (error) => {
+        console.error('Error al actualizar el perfil', error);
+      }
+    });
+  }
 
-
+  // Si quiere borrar, mostraremos un modal de confirmación   
   async deleteAccount(){
     const modal = await this.modalController.create({
       component: ConfirmDeleteAccountComponent
     });
-  
     await modal.present();
-  
+    // SI hay datos y se confirma, se elimina la cuenta
     const { data } = await modal.onWillDismiss();
     if (data && data.confirm) {
-
+      // Borramos al usuario de la BBDD por su id
       this.authService.me().subscribe( data =>{
         this.authService.deleteUser(data.id).subscribe({
           next: (response) => {
+            // Navegamos al login
             console.log('Cuenta eliminada correctamente.');
             this.router.navigate(['/login'])
           },
@@ -258,45 +259,9 @@ updateUserProfile(userId: number, userInfo: any) {
             console.error('error al eliminar la cuenta', error);
           }
         });
-      })
-      
+      })   
     }else{
       console.log("No")
     }
   }
-
-
-  normalizePostData(apiResponse: any, currentUser: UserExtended, like:any): PostExtended {
-    let post: PostExtended;
-
-    if (apiResponse.attributes) {
-      // Si la respuesta viene de Strapi y tiene un formato anidado
-      post = {
-        id: apiResponse.id,
-        description: apiResponse.attributes.description,
-        date: apiResponse.attributes.createdAt,
-        img: apiResponse.attributes.image?.data?.attributes.url,
-        user: {
-          id: apiResponse.user?.id || currentUser.id,
-          username: currentUser.username, // Usa el nombre de usuario del usuario actual
-          name: currentUser.name,
-        },
-        likedByUser: like
-      };
-    } else {
-      // Si la respuesta ya está en el formato plano esperado
-      post = {
-        ...apiResponse,
-        user: apiResponse.user || {
-          id: currentUser.id,
-          username: currentUser.username,
-          name: currentUser.name,
-        },
-        likedByUser: like // Mantén el estado del "like" si ya viene incluido
-      };
-    }
-  
-    return post;
-  }
-  
 }
