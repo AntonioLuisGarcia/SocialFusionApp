@@ -39,6 +39,9 @@
   <ion-item>
     <ion-input labelPlacement="stacked" label='{{"login.pwdRepeat" | translate}}' formControlName="passwordRepeat" type="password"></ion-input>
   </ion-item>
+  <p  style='color: red;' *ngIf="this.form.get('passwordRepeat')?.errors?.['required'] && this.form.controls['passwordRepeat'].touched">
+    {{"login.required" | translate}}
+  </p>
   <p style='color: red;' *ngIf="this.form.get('passwordRepeat')?.errors?.['passwordMatch'] && form.get('passwordRepeat')?.touched">
     {{"login.matchPwd" | translate}}
   </p>
