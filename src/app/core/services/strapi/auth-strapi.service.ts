@@ -108,13 +108,19 @@ export class AuthStrapiService extends AuthService{
          name:info.name,
        }
       //Hacemos un post con los datos y recogermos el jwt en caso de ser validas las credenciales
-      this.apiSvc.post("/auth/local/register", info).subscribe({
+      this.apiSvc.post("/auth/local/register", _info).subscribe({
         next:async (data:StrapiRegisterResponse)=>{
-          let connected = data && data.jwt !='';
-          this._logged.next(connected);
-          await lastValueFrom(this.jwtSvc.saveToken(data.jwt));
-          obs.next();
-          obs.complete();
+          if (data && data.jwt) {
+            let connected = data.jwt != '';
+            this._logged.next(connected);
+            await lastValueFrom(this.jwtSvc.saveToken(data.jwt));
+            obs.next();
+            obs.complete();
+          } else {
+            // Aquí puedes manejar el caso en que data.jwt no existe
+            // Por ejemplo, puedes emitir un error
+            obs.error(new Error('No JWT token in response'));
+          }
         },
         error:err=>{
           //Mensaje de error
