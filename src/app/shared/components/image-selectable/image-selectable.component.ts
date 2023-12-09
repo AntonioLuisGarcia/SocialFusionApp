@@ -50,14 +50,13 @@ export class ImageSelectableComponent  implements OnInit, ControlValueAccessor, 
       this.writeValue(val);
     }
 
-  // Tu función writeValue actual
   writeValue(obj: any): void {
     if (obj) {
       this.hasValue = true;
       this._picture.next(obj);
-      this.propagateChange(obj); // Asegúrate de notificar el cambio
+      this.propagateChange(obj); 
     } else {
-      this.hasValue = false; // Añade esta línea para manejar el caso en que no hay imagen
+      this.hasValue = false; 
       this._picture.next('');
     }
   }
