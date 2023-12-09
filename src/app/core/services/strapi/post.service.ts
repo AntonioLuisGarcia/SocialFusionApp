@@ -167,8 +167,9 @@ export class PostService {
           // Si hay imagen, sacamos la url de la imagen
           const imgURL = hasImage ? item.attributes.image.data.attributes.formats.small.url : null;
           // Verifica si el usuario actual (userId) ha dado like al post
-          const likedByUser = item.attributes.likes.data.some((like: any) => 
-            like.attributes.user.data.id === userId && like.attributes.like);
+          const likedByUser = item.attributes.likes?.data?.some((like: any) => 
+    like.attributes.user?.data?.id === userId && like.attributes.like
+);
           //Devolvemos un objeto con los datos del post
           return {
             id: item.id,
