@@ -101,29 +101,30 @@ export class AuthStrapiService extends AuthService{
   //Con este metodo nos registraremos
   register(info:UserRegister):Observable<void>{
     return new Observable<void>(obs=>{
-       const _info:StrapiRegisterPayload = {
-         username:info.username,
-         email:info.email,
-         password:info.password,
-         name:info.name,
-       }
-      //Hacemos un post con los datos y recogermos el jwt en caso de ser validas las credenciales
+      const _info:StrapiRegisterPayload = {
+        name:info.name,
+        email:info.email,
+        password:info.password,
+        username:info.username
+      }
       this.apiSvc.post("/auth/local/register", _info).subscribe({
         next:async (data:StrapiRegisterResponse)=>{
-          if (data && data.jwt) {
-            let connected = data.jwt != '';
-            this._logged.next(connected);
-            await lastValueFrom(this.jwtSvc.saveToken(data.jwt));
-            obs.next();
-            obs.complete();
-          } else {
-            // Aquí puedes manejar el caso en que data.jwt no existe
-            // Por ejemplo, puedes emitir un error
-            obs.error(new Error('No JWT token in response'));
+          let connected = data && data.jwt!='';
+          this._logged.next(connected);
+          await lastValueFrom(this.jwtSvc.saveToken(data.jwt));
+          const _extended_users:any= {
+            data:{
+              name:info.name,
+              username:info.username,
+              users_permissions_user:data.user.id
+              //user_id:data.user.id
+            }
           }
+          await lastValueFrom(this.apiSvc.post("/extended-users", _extended_users)).catch;
+          obs.next();
+          obs.complete();
         },
         error:err=>{
-          //Mensaje de error
           obs.error(err);
         }
       });

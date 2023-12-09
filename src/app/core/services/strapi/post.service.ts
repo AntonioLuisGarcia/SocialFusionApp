@@ -48,8 +48,9 @@ export class PostService {
           const imgURL = hasImage ? item.attributes.image.data.attributes.formats.medium.url : null;
   
           // Verifica si el usuario actual (actualUserId) ha dado like al post
-          const likedByUser = item.attributes.likes.data.some((like: any) => 
-            like.attributes.user.data.id === actualUserId && like.attributes.like);
+          const likedByUser = item.attributes.likes?.data?.some((like: any) => 
+            like.attributes.user?.data?.id === actualUserId && like.attributes.like
+          );
   
           //Devolvemos un objeto con los datos del post  
           return {
@@ -168,8 +169,8 @@ export class PostService {
           const imgURL = hasImage ? item.attributes.image.data.attributes.formats.small.url : null;
           // Verifica si el usuario actual (userId) ha dado like al post
           const likedByUser = item.attributes.likes?.data?.some((like: any) => 
-    like.attributes.user?.data?.id === userId && like.attributes.like
-);
+              like.attributes.user?.data?.id === userId && like.attributes.like
+            );
           //Devolvemos un objeto con los datos del post
           return {
             id: item.id,
