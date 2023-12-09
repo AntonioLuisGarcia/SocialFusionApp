@@ -1,6 +1,10 @@
+// Angular
 import { AbstractControl, FormControl, ValidationErrors, ValidatorFn } from "@angular/forms";
+
+
 export class PasswordValidation {
     
+    // Prototipo de una contraseña segura
     public static passwordProto(controlName:string=''): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
             let password = '';
@@ -17,6 +21,7 @@ export class PasswordValidation {
         }
     }
 
+    // En caso de hacer el register verificamos si la contraseña y  la confirmación son iguales
     public static passwordMatch(passwordControlName:string, confirmControlName:string): ValidatorFn {
     return (formGroup: AbstractControl): ValidationErrors | null => {
         const password = formGroup.get(passwordControlName)?.value;
@@ -30,7 +35,7 @@ export class PasswordValidation {
             formGroup.get(confirmControlName)?.setErrors(null);
         }
 
-        return null; // No hay errores
+        return null;
         };
     }
 }

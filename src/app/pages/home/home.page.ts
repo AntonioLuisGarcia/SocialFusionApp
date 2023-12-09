@@ -1,6 +1,5 @@
 /// Angular
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 
 /// Services
@@ -29,7 +28,6 @@ import { dataURLtoBlob } from 'src/app/core/helpers/blob';
 })
 export class HomePage implements OnInit{
   
-  //llamo a los servicios 
   constructor(
     private auth:AuthService,
     private postService:PostService,
@@ -37,17 +35,17 @@ export class HomePage implements OnInit{
     private commentService:CommentService,
     private mediaService: MediaService,
     public modalController: ModalController,
-
     ) {}
   
   posts: PostExtended[] | any;
   me: UserExtended | any;
   
   
+  // Al iniciar la página, obtenemos el usuario actual y sus posts
   ngOnInit() {
     this.auth.me().subscribe((data) => {
       this.me = data;
-      // Ahora que tenemos `this.me`, podemos obtener los posts
+      // Ahora que tenemos `this.me`, podemos obtener los posts y ordenarlos por fecha
       if (this.me && this.me.id) {
         this.postService.posts$.subscribe((posts) => {
           this.posts = posts.sort((a, b) => {
@@ -58,11 +56,10 @@ export class HomePage implements OnInit{
         });
         this.postService.fetchAndEmitPosts(data.id);
       }
-      console.log(data.id)
-      console.log(this.me.id)
     });
   }
 
+  // Al hacer click en el botón de like, llamamos al servicio de likes, para crearlo o cambiar el estado
   onLikePost(postId:number){
     this.auth.me().subscribe((data) =>{
       this.likeService.onLike(postId, data.id).subscribe({
@@ -71,12 +68,13 @@ export class HomePage implements OnInit{
           this.postService.fetchAndEmitPosts(this.me.id)
         },
         error: (error) => {
-          console.error('Error al cambiar el estado del like', error);
+          console.error('Error de like', error);
         }
       });
     })
   }
   
+  // Cuando se hace click en el botón de comentar, llamamos al servicio de comentarios, para crearlo
   onCommentPost(comment:Comment){
     this.auth.me().subscribe((data) =>{
         comment.userId = data.id
@@ -84,6 +82,7 @@ export class HomePage implements OnInit{
     })    
   }
   
+  // Al hacer click en el botón de mostrar comentarios, llamamos al servicio de comentarios, para obtenerlos
   async onShowComments(postId: number) {
     this.commentService.getCommentForPots(postId).subscribe(async (comments) => {
       const modal = await this.modalController.create({
@@ -97,6 +96,7 @@ export class HomePage implements OnInit{
     });
   }
   
+  // Al hacer click en el botón de añadir post, llamamos al modal de añadir post
   async presentAddPostModal() {
     const modal = await this.modalController.create({
       component: AddPostModalComponent
@@ -104,13 +104,15 @@ export class HomePage implements OnInit{
     await modal.present();
     const { data } = await modal.onDidDismiss();
     if (data && data.status === 'ok') {
+      // Convertir la imagen a blob
       dataURLtoBlob(data.post.image, (blob:Blob)=>{
         this.mediaService.upload(blob).subscribe((media:number[])=>{
-                // Obtener detalles del usuario
+      // Obtener detalles del usuario
       this.auth.me().subscribe(
         user => {
+          //Cogemos la url de la imagen
           const imageUrl = media.length > 0 ? media[0] : null;
-          console.log(imageUrl)
+          // Creamos el nuevo post
           const newPost: any = {
             img: imageUrl,
             description: data.post.description,
