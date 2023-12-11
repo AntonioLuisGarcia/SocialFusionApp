@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { createTranslateLoader } from '../core/translate/translate';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { FormatDatePipe } from './pipe/format-date.pipe';
 import { ImageSelectableComponent } from './components/image-selectable/image-selectable.component';
 import { PostItemComponent } from './components/post-item/post-item.component';
@@ -20,7 +19,6 @@ import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
-    SidebarComponent,
     PostItemComponent,
     PostListComponent,
     ImageSelectableComponent,
@@ -51,7 +49,6 @@ import { HeaderComponent } from './components/header/header.component';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    SidebarComponent,
     ImageSelectableComponent,
     PostItemComponent,
     PostListComponent,

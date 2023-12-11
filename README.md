@@ -21,3 +21,6 @@ About: Información del creador de la página
 
 ## Video de presentación:
 [Video de presentación](https://youtu.be/36h2kJG6l7A?si=KfGlpPYuhnMDSw1h)
+
+## URL  de la app:
+https://master--dashing-gnome-74121e.netlify.app
