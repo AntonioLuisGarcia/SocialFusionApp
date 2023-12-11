@@ -59,9 +59,9 @@ export class PostService {
             img: imgURL,
             date: item.attributes.createdAt,
             user: {
-              id: item.attributes.user.data.id,
-              username: item.attributes.user.data.attributes.username,
-              name: item.attributes.user.data.attributes.name
+              id: item.attributes.user?.data?.id,
+              username: item.attributes.user?.data?.attributes.username,
+              name: item.attributes.user?.data?.attributes.name
             },
             likedByUser: likedByUser // Esto será true si el usuario actual ha dado like al post
           };
@@ -178,9 +178,9 @@ export class PostService {
             img: imgURL,
             date: item.attributes.createdAt,
             user: {
-              id: item.attributes.user.data.id,
-              username: item.attributes.user.data.attributes.username,
-              name: item.attributes.user.data.attributes.name
+              id: item.attributes.user?.data?.id,
+              username: item.attributes.user?.data?.attributes.username,
+              name: item.attributes.user?.data?.attributes.name
             },
             likedByUser: likedByUser // Esto será true si el usuario actual ha dado like al post
           };

@@ -30,7 +30,7 @@ export class CommentService {
             id: comment.id,
             text: comment.attributes.text,
             postId: comment.attributes.post.data.id,
-            user: comment.attributes.user.data.attributes.username,
+            user: comment.attributes.user?.data?.attributes.username,
           }
         })
       ));
