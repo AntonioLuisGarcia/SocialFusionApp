@@ -1,11 +1,11 @@
 <ion-app>
-    <ion-menu #menu contentId="main-content">
+    <ion-menu  *ngIf="this.user" #menu contentId="main-content">
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
             <ion-button (click)="menu.close()"><ion-icon slot="icon-only" name="close"></ion-icon></ion-button>
           </ion-buttons>
-          <ion-title>@{{user?.username}}</ion-title>
+          <ion-title>@{{user.username}}</ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
